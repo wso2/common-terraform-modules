@@ -9,6 +9,10 @@
 #
 # --------------------------------------------------------------------------------------
 
+variable "special" {
+  type    = bool
+  default = true
+}
 variable "override_special" {
   type        = string
   description = "Override special characters"

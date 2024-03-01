@@ -11,6 +11,6 @@
 
 resource "random_password" "password" {
   length           = var.password_length
-  special          = true
+  special          = var.special
   override_special = var.override_special
 }
