@@ -46,81 +46,81 @@ variable "channel-configuration" {
 
 variable "monitor-configuration" {
   type = object({
-    type = string
-    name = string
+    type         = string
+    name         = string
     monitor_type = string
-    enabled = bool
+    enabled      = bool
   })
 }
 
 variable "monitor-schedule" {
   type = object({
     interval = number
-    unit = string
+    unit     = string
   })
   default = {
     interval = 1
-    unit = "MINUTES"
+    unit     = "MINUTES"
   }
 }
 
 variable "monitor-query-search-range" {
   type = object({
     from = string
-    to = string
+    to   = string
   })
   default = {
     from = "{{period_end}}||-10m"
-    to = "{{period_end}}"
+    to   = "{{period_end}}"
   }
 }
 
 variable "log-search-namespace" {
-  type = string
+  type        = string
   description = "The namespace where the log is searching"
 }
 
 variable "log-search-container" {
-  type = string
+  type        = string
   description = "The container where the log is searching"
 }
 
 variable "log-search-phrase" {
-  type = string
+  type        = string
   description = "The log search phrase"
-  default = "*<SEARCH_PHRASE>*"
+  default     = "*<SEARCH_PHRASE>*"
 }
 
 variable "log-aggregation-fixed-interval" {
-  type = string
+  type        = string
   description = "Aggregation fixed interval. Y window"
-  default = "<Y>m"
+  default     = "<Y>m"
 }
 
 variable "log-aggregation-min-doc-count" {
-  type = number
+  type        = number
   description = "Log aggregation min doc count"
 }
 
 variable "trigger-config-name" {
-  type = string
+  type        = string
   description = "Name of the trigger configurations"
 }
 
 variable "trigger-config-script" {
   type = object({
     source = string
-    lang = string
+    lang   = string
   })
   default = {
     source = "params.log_count \u003e 2"
-    lang = "painless"
+    lang   = "painless"
   }
 }
 
 variable "monitor-action-trigger" {
   type = object({
-    name = string
+    name           = string
     destination_id = string
   })
 }
