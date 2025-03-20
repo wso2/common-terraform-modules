@@ -9,15 +9,6 @@
 #
 # --------------------------------------------------------------------------------------
 
-provider "opensearch" {
-  url               = var.opensearch-cluster-url
-  username          = var.opensearch-username
-  password          = var.opensearch-password
-  sign_aws_requests = false
-  healthcheck       = false
-  insecure          = true
-}
-
 resource "opensearch_channel_configuration" "channel_configuration" {
   body = <<EOF
 {
@@ -167,3 +158,4 @@ resource "opensearch_monitor" "pdp_monitor_1" {
 }
 EOF
 }
+

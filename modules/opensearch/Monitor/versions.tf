@@ -18,3 +18,12 @@ terraform {
   }
 }
 
+provider "opensearch" {
+  url               = var.opensearch-cluster-url
+  username          = var.opensearch-username
+  password          = var.opensearch-password
+  sign_aws_requests = false
+  healthcheck       = false
+  insecure          = true
+}
+

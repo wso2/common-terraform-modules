@@ -24,6 +24,7 @@ variable "opensearch-username" {
 variable "opensearch-password" {
   description = "Opensearch cluster password"
   type        = string
+  sensitive   = true
   default     = ""
 }
 
