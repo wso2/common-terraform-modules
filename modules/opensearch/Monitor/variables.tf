@@ -28,23 +28,6 @@ variable "opensearch-password" {
   default     = ""
 }
 
-variable "channel-configuration" {
-  type = object({
-    id          = string
-    name        = string
-    description = string
-    enabled     = bool
-    webhook     = string
-  })
-  default = {
-    id          = "config_1"
-    name        = "channel-config-name"
-    description = "Description for the channel"
-    enabled     = true
-    webhook     = "webhook url"
-  }
-}
-
 variable "monitor-configuration" {
   type = object({
     type         = string
