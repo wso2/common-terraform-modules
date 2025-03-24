@@ -30,10 +30,10 @@ resource "opensearch_monitor" "pdp_monitor_1" {
   ]
 
   body = jsonencode({
-    type          = var.monitor-configuration.type
-    name          = var.monitor-configuration.name
-    monitor_type  = var.monitor-configuration.monitor_type
-    enabled       = var.monitor-configuration.enabled
+    type         = var.monitor-configuration.type
+    name         = var.monitor-configuration.name
+    monitor_type = var.monitor-configuration.monitor_type
+    enabled      = var.monitor-configuration.enabled
     schedule = {
       period = {
         interval = var.monitor-schedule.interval
@@ -52,12 +52,12 @@ resource "opensearch_monitor" "pdp_monitor_1" {
                   {
                     range = {
                       "@timestamp" = {
-                        from           = var.monitor-query-search-range.from
-                        to             = var.monitor-query-search-range.to
-                        include_lower  = true
-                        include_upper  = true
-                        format         = "epoch_millis"
-                        boost          = 1
+                        from          = var.monitor-query-search-range.from
+                        to            = var.monitor-query-search-range.to
+                        include_lower = true
+                        include_upper = true
+                        format        = "epoch_millis"
+                        boost         = 1
                       }
                     }
                   },
