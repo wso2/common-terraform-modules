@@ -9,26 +9,8 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "opensearch_channel_configuration" "channel_configuration" {
-  body = jsonencode({
-    config_id = var.channel-configuration.id
-    config = {
-      name        = var.channel-configuration.name
-      description = var.channel-configuration.description
-      config_type = "webhook"
-      is_enabled  = var.channel-configuration.enabled
-      webhook = {
-        url = var.channel-configuration.webhook
-      }
-    }
-  })
-}
 
 resource "opensearch_monitor" "pdp_monitor_1" {
-  depends_on = [
-    opensearch_channel_configuration.channel_configuration
-  ]
-
   body = jsonencode({
     type         = var.monitor-configuration.type
     name         = var.monitor-configuration.name
