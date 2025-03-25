@@ -12,14 +12,14 @@
 
 resource "opensearch_monitor" "pdp_monitor_1" {
   body = jsonencode({
-    type         = var.monitor-configuration.type
-    name         = var.monitor-configuration.name
-    monitor_type = var.monitor-configuration.monitor_type
-    enabled      = var.monitor-configuration.enabled
+    type         = var.monitor_configuration.type
+    name         = var.monitor_configuration.name
+    monitor_type = var.monitor_configuration.monitor_type
+    enabled      = var.monitor_configuration.enabled
     schedule = {
       period = {
-        interval = var.monitor-schedule.interval
-        unit     = var.monitor-schedule.unit
+        interval = var.monitor_schedule.interval
+        unit     = var.monitor_schedule.unit
       }
     }
     inputs = [
@@ -34,8 +34,8 @@ resource "opensearch_monitor" "pdp_monitor_1" {
                   {
                     range = {
                       "@timestamp" = {
-                        from          = var.monitor-query-search-range.from
-                        to            = var.monitor-query-search-range.to
+                        from          = var.monitor_query_search_range.from
+                        to            = var.monitor_query_search_range.to
                         include_lower = true
                         include_upper = true
                         format        = "epoch_millis"
@@ -46,14 +46,14 @@ resource "opensearch_monitor" "pdp_monitor_1" {
                   {
                     term = {
                       "kubernetes.namespace_name" = {
-                        value = var.log-search-namespace
+                        value = var.log_search_namespace
                       }
                     }
                   },
                   {
                     term = {
                       "kubernetes.container_name" = {
-                        value = var.log-search-container
+                        value = var.log_search_container
                         boost = 1
                       }
                     }
@@ -61,7 +61,7 @@ resource "opensearch_monitor" "pdp_monitor_1" {
                   {
                     wildcard = {
                       log = {
-                        wildcard = var.log-search-phrase
+                        wildcard = var.log_search_phrase
                         boost    = 1
                       }
                     }
@@ -76,13 +76,13 @@ resource "opensearch_monitor" "pdp_monitor_1" {
                 date_histogram = {
                   field          = "@timestamp"
                   format         = "epoch_millis"
-                  fixed_interval = var.log-aggregation-fixed-interval
+                  fixed_interval = var.log_aggregation_fixed_interval
                   offset         = 0
                   order = {
                     "_key" = "asc"
                   }
                   keyed         = false
-                  min_doc_count = var.log-aggregation-min-doc-count
+                  min_doc_count = var.log_aggregation_min_doc_count
                 }
               }
             }
@@ -93,7 +93,7 @@ resource "opensearch_monitor" "pdp_monitor_1" {
     triggers = [
       {
         bucket_level_trigger = {
-          name     = var.trigger-config-name
+          name     = var.trigger_config_name
           severity = "1"
           condition = {
             buckets_path = {
@@ -101,14 +101,14 @@ resource "opensearch_monitor" "pdp_monitor_1" {
             }
             parent_bucket_path = "number_of_matching_logs"
             script = {
-              source = var.trigger-config-script.source
-              lang   = var.trigger-config-script.lang
+              source = var.trigger_config_script.source
+              lang   = var.trigger_config_script.lang
             }
           }
           actions = [
             {
-              name           = var.monitor-action-trigger.name
-              destination_id = var.monitor-action-trigger.destination_id
+              name           = var.monitor_action_trigger.name
+              destination_id = var.monitor_action_trigger.destination_id
               message_template = {
                 source = "{ \"monitorId\": \"{{ctx.monitor._id}}\", \"monitorName\": \"{{ctx.monitor.name}}\", \"monitorType\": \"{{ctx.monitor.type}}\", \"triggerName\": \"{{ctx.trigger.name}}\", \"triggerSeverity\": \"{{ctx.trigger.severity}}\", \"periodStart\": \"{{ctx.periodStart}}\", \"periodEnd\": \"{{ctx.periodEnd}}\",\"logCount\": \"{{ctx.results.0.hits.total.value}}\",\"type\": \"logs\"}"
                 lang   = "mustache"

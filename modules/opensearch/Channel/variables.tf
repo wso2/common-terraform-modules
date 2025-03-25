@@ -9,26 +9,26 @@
 #
 # --------------------------------------------------------------------------------------
 
-variable "opensearch-cluster-url" {
+variable "opensearch_cluster_url" {
   description = "Opensearch cluster URL"
   type        = string
   default     = ""
 }
 
-variable "opensearch-username" {
+variable "opensearch_username" {
   description = "Opensearch cluster username"
   type        = string
   default     = ""
 }
 
-variable "opensearch-password" {
+variable "opensearch_password" {
   description = "Opensearch cluster password"
   type        = string
   sensitive   = true
   default     = ""
 }
 
-variable "channel-configuration" {
+variable "channel_configuration" {
   type = object({
     id          = string
     name        = string

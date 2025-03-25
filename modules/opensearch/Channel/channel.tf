@@ -11,14 +11,14 @@
 
 resource "opensearch_channel_configuration" "channel_configuration" {
   body = jsonencode({
-    config_id = var.channel-configuration.id
+    config_id = var.channel_configuration.id
     config = {
-      name        = var.channel-configuration.name
-      description = var.channel-configuration.description
+      name        = var.channel_configuration.name
+      description = var.channel_configuration.description
       config_type = "webhook"
-      is_enabled  = var.channel-configuration.enabled
+      is_enabled  = var.channel_configuration.enabled
       webhook = {
-        url = var.channel-configuration.webhook
+        url = var.channel_configuration.webhook
       }
     }
   })

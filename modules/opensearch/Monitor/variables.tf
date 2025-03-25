@@ -9,26 +9,26 @@
 #
 # --------------------------------------------------------------------------------------
 
-variable "opensearch-cluster-url" {
+variable "opensearch_cluster_url" {
   description = "Opensearch cluster URL"
   type        = string
   default     = ""
 }
 
-variable "opensearch-username" {
+variable "opensearch_username" {
   description = "Opensearch cluster username"
   type        = string
   default     = ""
 }
 
-variable "opensearch-password" {
+variable "opensearch_password" {
   description = "Opensearch cluster password"
   type        = string
   sensitive   = true
   default     = ""
 }
 
-variable "monitor-configuration" {
+variable "monitor_configuration" {
   type = object({
     type         = string
     name         = string
@@ -37,7 +37,7 @@ variable "monitor-configuration" {
   })
 }
 
-variable "monitor-schedule" {
+variable "monitor_schedule" {
   type = object({
     interval = number
     unit     = string
@@ -48,7 +48,7 @@ variable "monitor-schedule" {
   }
 }
 
-variable "monitor-query-search-range" {
+variable "monitor_query_search_range" {
   type = object({
     from = string
     to   = string
@@ -59,39 +59,39 @@ variable "monitor-query-search-range" {
   }
 }
 
-variable "log-search-namespace" {
+variable "log_search_namespace" {
   type        = string
   description = "The namespace where the log is searching"
 }
 
-variable "log-search-container" {
+variable "log_search_container" {
   type        = string
   description = "The container where the log is searching"
 }
 
-variable "log-search-phrase" {
+variable "log_search_phrase" {
   type        = string
   description = "The log search phrase"
   default     = "*<SEARCH_PHRASE>*"
 }
 
-variable "log-aggregation-fixed-interval" {
+variable "log_aggregation_fixed_interval" {
   type        = string
   description = "Aggregation fixed interval. Y window"
   default     = "<Y>m"
 }
 
-variable "log-aggregation-min-doc-count" {
+variable "log_aggregation_min_doc_count" {
   type        = number
   description = "Log aggregation min doc count"
 }
 
-variable "trigger-config-name" {
+variable "trigger_config_name" {
   type        = string
   description = "Name of the trigger configurations"
 }
 
-variable "trigger-config-script" {
+variable "trigger_config_script" {
   type = object({
     source = string
     lang   = string
@@ -102,7 +102,7 @@ variable "trigger-config-script" {
   }
 }
 
-variable "monitor-action-trigger" {
+variable "monitor_action_trigger" {
   type = object({
     name           = string
     destination_id = string

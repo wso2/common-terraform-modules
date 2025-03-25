@@ -19,9 +19,9 @@ terraform {
 }
 
 provider "opensearch" {
-  url               = var.opensearch-cluster-url
-  username          = var.opensearch-username
-  password          = var.opensearch-password
+  url               = var.opensearch_cluster_url
+  username          = var.opensearch_username
+  password          = var.opensearch_password
   sign_aws_requests = false
   healthcheck       = false
   insecure          = true
