@@ -33,15 +33,8 @@ variable "channel_configuration" {
     id          = string
     name        = string
     description = string
-    enabled     = bool
+    enabled     = optional(bool, true)
     webhook     = string
   })
-  default = {
-    id          = "config_1"
-    name        = "channel-config-name"
-    description = "Description for the channel"
-    enabled     = true
-    webhook     = "webhook url"
-  }
 }
 
