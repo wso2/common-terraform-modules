@@ -9,21 +9,18 @@
 #
 # --------------------------------------------------------------------------------------
 
-terraform {
-  required_providers {
-    opensearch = {
-      source  = "opensearch-project/opensearch"
-      version = ">= 2.3"
+resource "opensearch_channel_configuration" "channel_configuration" {
+  body = jsonencode({
+    config_id = var.channel_configuration.id
+    config = {
+      name        = var.channel_configuration.name
+      description = var.channel_configuration.description
+      config_type = "webhook"
+      is_enabled  = var.channel_configuration.enabled
+      webhook = {
+        url = var.channel_configuration.webhook
+      }
     }
-  }
-}
-
-provider "opensearch" {
-  url               = var.opensearch_cluster_url
-  username          = var.opensearch_username
-  password          = var.opensearch_password
-  sign_aws_requests = false
-  healthcheck       = false
-  insecure          = true
+  })
 }
 
