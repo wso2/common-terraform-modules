@@ -17,12 +17,6 @@
 #
 # --------------------------------------------------------------------------------------
 
-variable "github_token" {
-  description = "GitHub token for authentication."
-  type        = string
-  sensitive   = true
-}
-
 variable "repository" {
   description = "The name of the repository where the variable will be created."
   type        = string
@@ -38,9 +32,4 @@ variable "secret_string" {
   description = "The value of the secret to be created."
   type        = string
   sensitive   = true
-}
-
-variable "owner" {
-  description = "The owner of the repository."
-  type        = string
 }
