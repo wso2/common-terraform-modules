@@ -17,7 +17,7 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "github_actions_variable" "example_variable" {
+resource "github_actions_variable" "github_variable" {
   repository    = var.repository
   variable_name = var.variable_name
   value         = var.value

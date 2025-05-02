@@ -20,6 +20,7 @@
 variable "github_token" {
   description = "GitHub token for authentication."
   type        = string
+  sensitive   = true
 }
 
 variable "repository" {
@@ -30,11 +31,13 @@ variable "repository" {
 variable "variable_name" {
   description = "The name of the variable to be created."
   type        = string
+  sensitive   = true
 }
 
 variable "value" {
   description = "The value of the variable to be created."
   type        = string
+  sensitive   = true
 }
 
 variable "owner" {

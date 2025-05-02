@@ -17,7 +17,7 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "github_actions_secret" "example_secret" {
+resource "github_actions_secret" "github_secret" {
   repository      = var.repository
   secret_name     = var.secret_name
   plaintext_value = var.secret_string
