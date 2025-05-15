@@ -30,7 +30,6 @@ variable "environment" {
 variable "variable_name" {
   description = "The name of the environment variable"
   type        = string
-  sensitive   = true
 }
 
 variable "value" {
