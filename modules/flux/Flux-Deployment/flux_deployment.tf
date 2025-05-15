@@ -9,11 +9,7 @@
 #
 # --------------------------------------------------------------------------------------
 
-terraform {
-  required_providers {
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "2.36.0"
-    }
-  }
+resource "flux_bootstrap_git" "flux_bootstrap_rbom" {
+  embedded_manifests = true
+  path               = var.path
 }

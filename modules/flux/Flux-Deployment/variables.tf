@@ -9,11 +9,7 @@
 #
 # --------------------------------------------------------------------------------------
 
-terraform {
-  required_providers {
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "2.36.0"
-    }
-  }
+variable "path" {
+  description = "The path to the git repository where flux will be bootstrapped."
+  type        = string
 }
