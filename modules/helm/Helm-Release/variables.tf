@@ -62,13 +62,5 @@ variable "skip_crds" {
 }
 variable "values" {
   description = "Values for the Helm chart"
-  type        = string
-}
-variable "values_inline" {
-  description = "Inline values for the Helm chart"
-  type = list(object({
-    name  = string
-    value = string
-  }))
-  default = []
+  type        = list(string)
 }

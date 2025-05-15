@@ -28,5 +28,4 @@ resource "helm_release" "release" {
   disable_webhooks           = var.disable_webhooks
   values                     = var.values
   skip_crds                  = var.skip_crds
-  set                        = var.values_inline
 }
