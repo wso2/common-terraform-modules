@@ -1,0 +1,48 @@
+#
+# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+#
+# WSO2 LLC. licenses this file to you under the Apache License,
+# Version 2.0 (the "License"); you may not use this file except
+# in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+# --------------------------------------------------------------------------------------
+
+variable "repository" {
+  description = "The name of the repository where the variable will be created."
+  type        = string
+}
+
+variable "branch" {
+  description = "The name of the repository branch"
+  type        = string
+}
+
+variable "file" {
+  description = "The name of the file"
+  type        = string
+}
+
+variable "content" {
+  description = "The content to be placed inside the file"
+  type        = string
+}
+
+variable "commit_message" {
+  description = "The commit message when creating/updating file content"
+  type        = string
+}
+
+variable "overwrite_on_create" {
+  description = "The value to be passed to overwrite when updating the content"
+  type        = bool
+}
