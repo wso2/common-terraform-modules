@@ -1,11 +1,3 @@
-terraform {
-  required_providers {
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "2.31.0"
-    }
-  }
-}
 #
 # Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
 #
