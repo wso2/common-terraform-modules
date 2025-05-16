@@ -64,3 +64,7 @@ variable "values" {
   description = "Values for the Helm chart"
   type        = list(string)
 }
+variable "namespace" {
+  description = "Namespace for the Helm release"
+  type        = string
+}
