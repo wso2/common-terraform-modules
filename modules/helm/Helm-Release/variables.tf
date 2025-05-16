@@ -68,3 +68,8 @@ variable "namespace" {
   description = "Namespace for the Helm release"
   type        = string
 }
+variable "upgrade_install" {
+  description = "Upgrade install"
+  type        = bool
+  default     = true
+}
