@@ -29,4 +29,5 @@ resource "helm_release" "release" {
   values                     = var.values
   skip_crds                  = var.skip_crds
   namespace                  = var.namespace
+  upgrade_install            = var.upgrade_install
 }
