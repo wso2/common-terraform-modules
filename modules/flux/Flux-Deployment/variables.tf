@@ -13,3 +13,8 @@ variable "path" {
   description = "The path to the git repository where flux will be bootstrapped."
   type        = string
 }
+variable "image_pull_secret" {
+  description = "The name of the image pull secret to use for the flux deployment."
+  type        = string
+  default     = null
+}

@@ -12,4 +12,5 @@
 resource "flux_bootstrap_git" "flux_bootstrap_rbom" {
   embedded_manifests = true
   path               = var.path
+  image_pull_secret = var.image_pull_secret
 }
