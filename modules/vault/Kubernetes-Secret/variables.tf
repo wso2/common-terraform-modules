@@ -11,11 +11,7 @@
 
 variable "secrets_map" {
   description = "Map of secrets to be created"
-  type = map(object({
-    name      = string
-    namespace = string
-    data      = map(string)
-  }))
+  type = map(string)
   default = {}
 }
 variable "namespace" {
@@ -35,10 +31,6 @@ variable "permissions" {
   description = "Permissions for the secret"
   type        = string
   default     = "read"
-}
-variable "backend" {
-  description = "Backend for the secret"
-  type        = string
 }
 variable "create_rbac" {
   description = "Create RBAC for the secret"
