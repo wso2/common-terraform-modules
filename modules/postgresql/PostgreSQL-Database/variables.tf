@@ -9,31 +9,31 @@
 #
 # --------------------------------------------------------------------------------------
 
-variable "secrets_map" {
-  description = "Map of secrets to be created"
-  type = map(string)
-  default = {}
-}
-variable "namespace" {
-  description = "Namespace to create the secrets in"
+variable "db_name" {
+  description = "Name of the database to be created."
   type        = string
 }
-variable "workload_name" {
-  description = "Name of the secret"
+variable "db_owner" {
+  description = "Owner of the database."
   type        = string
 }
-variable "service_account_name" {
-  description = "Name of the service account"
+variable "template" {
+  description = "Template to use for the database."
+  type        = string
+  default     = "template0"
+}
+variable "lc_collate" {
+  description = "LC_COLLATE setting for the database."
   type        = string
   default     = null
 }
-variable "permissions" {
-  description = "Permissions for the secret"
-  type        = string
-  default     = "read"
+variable "connection_limit" {
+  description = "Connection limit for the database."
+  type        = number
+  default     = -1
 }
-variable "create_rbac" {
-  description = "Create RBAC for the secret"
+variable "allow_connections" {
+  description = "Allow connections to the database."
   type        = bool
   default     = true
 }
