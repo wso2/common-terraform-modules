@@ -44,5 +44,4 @@ resource "vault_policy" "vault_policy" {
   count    = var.create_rbac == true ? 1 : 0
   name     = "${var.namespace}-${var.workload_name}-policy"
   policy   = "path \"${var.namespace}/${var.workload_name}/data\" {\n\tcapabilities = [\"${var.permissions}\"]\n}\n"
-  provider = vault.rbom
 }
