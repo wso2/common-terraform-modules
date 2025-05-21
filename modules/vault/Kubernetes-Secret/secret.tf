@@ -13,7 +13,7 @@ resource "vault_kv_secret_v2" "secrets" {
   count = length(keys(var.secrets_map)) > 0 ? 1 : 0
 
   mount     = vault_mount.vault_mount.path
-  name      = "${var.namespace}/${var.workload_name}"
+  name      = "secrets"
   data_json = jsonencode(var.secrets_map)
 }
 
