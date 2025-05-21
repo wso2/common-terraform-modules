@@ -33,7 +33,7 @@ resource "vault_kv_secret_backend_v2" "secret_backend" {
 
 resource "vault_kubernetes_auth_backend_role" "vault_kubernetes_auth_backend_role" {
   count                            = var.create_rbac == true ? 1 : 0
-  backend                          = vault_mount.vault_mount.path
+  backend                          = var.backend_path
   role_name                        = "${var.namespace}-${var.workload_name}-role"
   bound_service_account_names      = var.service_account_name == null ? [var.workload_name] : [var.service_account_name]
   bound_service_account_namespaces = [var.namespace]
