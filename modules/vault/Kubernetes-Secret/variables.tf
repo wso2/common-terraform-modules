@@ -11,8 +11,8 @@
 
 variable "secrets_map" {
   description = "Map of secrets to be created"
-  type = map(string)
-  default = {}
+  type        = map(string)
+  default     = {}
 }
 variable "namespace" {
   description = "Namespace to create the secrets in"
