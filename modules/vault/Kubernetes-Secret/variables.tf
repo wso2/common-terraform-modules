@@ -37,3 +37,8 @@ variable "create_rbac" {
   type        = bool
   default     = true
 }
+variable "backend_path" {
+  description = "Path to the backend"
+  type        = string
+  default     = "kubernetes"
+}
