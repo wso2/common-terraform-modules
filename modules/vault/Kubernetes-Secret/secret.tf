@@ -18,7 +18,7 @@ resource "vault_kv_secret_v2" "secrets" {
 }
 
 resource "vault_mount" "vault_mount" {
-  path = "${var.namespace}-${var.workload_name}"
+  path = "${var.namespace}/${var.workload_name}"
   type = "kv-v2"
   options = {
     type    = "kv-v2"
@@ -43,5 +43,5 @@ resource "vault_kubernetes_auth_backend_role" "vault_kubernetes_auth_backend_rol
 resource "vault_policy" "vault_policy" {
   count  = var.create_rbac == true ? 1 : 0
   name   = "${var.namespace}-${var.workload_name}-policy"
-  policy = "path \"${var.namespace}-${var.workload_name}/data\" {\n\tcapabilities = [\"${var.permissions}\"]\n}\n"
+  policy = "path \"${var.namespace}/${var.workload_name}/data\" {\n\tcapabilities = [\"${var.permissions}\"]\n}\n"
 }
