@@ -42,3 +42,7 @@ variable "backend_path" {
   type        = string
   default     = "kubernetes"
 }
+variable "vault_path" {
+  description = "Path to the vault"
+  type        = string
+}
