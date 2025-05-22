@@ -12,14 +12,9 @@
 resource "vault_kv_secret_v2" "secrets" {
   count = length(keys(var.secrets_map)) > 0 ? 1 : 0
 
-  mount     = vault_mount.vault_mount.path
-  name      = "data"
+  mount     = var.vault_path
+  name      = "${var.namespace}-${var.workload_name}"
   data_json = jsonencode(var.secrets_map)
-}
-
-resource "vault_kv_secret_backend_v2" "secret_backend" {
-  mount        = vault_mount.vault_mount.path
-  cas_required = false
 }
 
 resource "vault_kubernetes_auth_backend_role" "vault_kubernetes_auth_backend_role" {
