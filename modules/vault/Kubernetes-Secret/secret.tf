@@ -13,19 +13,10 @@ resource "vault_kv_secret_v2" "secrets" {
   count = length(keys(var.secrets_map)) > 0 ? 1 : 0
 
   mount     = vault_mount.vault_mount.path
-  name      = "secrets"
+  name      = "data"
   data_json = jsonencode(var.secrets_map)
 }
 
-resource "vault_mount" "vault_mount" {
-  path = "${var.namespace}/${var.workload_name}"
-  type = "kv-v2"
-  options = {
-    type    = "kv-v2"
-    version = "2"
-  }
-  description = "Secrets of ${var.workload_name} in ${var.namespace}"
-}
 resource "vault_kv_secret_backend_v2" "secret_backend" {
   mount        = vault_mount.vault_mount.path
   cas_required = false
@@ -43,5 +34,5 @@ resource "vault_kubernetes_auth_backend_role" "vault_kubernetes_auth_backend_rol
 resource "vault_policy" "vault_policy" {
   count  = var.create_rbac == true ? 1 : 0
   name   = "${var.namespace}-${var.workload_name}-policy"
-  policy = "path \"${var.namespace}/${var.workload_name}/data\" {\n\tcapabilities = [\"${var.permissions}\"]\n}\n"
+  policy = "path \"${var.vault_path}/data/${var.namespace}/${var.workload_name}\" {\n\tcapabilities = [\"${var.permissions}\"]\n}\n"
 }
