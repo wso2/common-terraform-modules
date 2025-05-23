@@ -8,7 +8,3 @@
 # You may not alter or remove any copyright or other notice from copies of this content.
 #
 # --------------------------------------------------------------------------------------
-
-locals {
-  file_path = substr(var.file_path, -1, 1) != "/" ? "${var.file_path}/" : var.file_path
-}
