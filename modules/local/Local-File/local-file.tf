@@ -11,5 +11,5 @@
 
 resource "local_file" "file" {
   content  = var.content
-  filename = "${local.file_path}${var.file_name}"
+  filename = "${var.file_path}${var.file_name}"
 }
