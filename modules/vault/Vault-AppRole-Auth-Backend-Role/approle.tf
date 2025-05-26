@@ -16,6 +16,7 @@ resource "vault_auth_backend" "approle" {
 resource "vault_approle_auth_backend_role" "app_role" {
   backend            = vault_auth_backend.approle.path
   role_name          = var.role_name
+  token_policies     = var.token_policies
   bind_secret_id     = var.bind_secret_id
   secret_id_ttl      = var.secret_id_ttl
   token_type         = var.token_type
