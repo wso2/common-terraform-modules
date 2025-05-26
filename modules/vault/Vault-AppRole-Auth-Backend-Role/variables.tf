@@ -14,6 +14,11 @@ variable "role_name" {
   type        = string
 }
 
+variable "token_policies" {
+  description = "List of policies to encode onto generated tokens"
+  type        = list(string)
+}
+
 variable "bind_secret_id" {
   description = "Whether or not to require secret_id to be presented when logging in using this AppRole"
   type        = bool
