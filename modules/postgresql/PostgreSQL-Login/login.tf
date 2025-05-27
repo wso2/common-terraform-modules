@@ -24,7 +24,7 @@ resource "postgresql_grant" "permissions" {
   role        = postgresql_role.role.name
   schema      = each.value.schema
   object_type = each.value.object_type
-  objects     = each.value.object_type == "database" || each.value.object_type == "schema" ? null: each.value.objects
+  objects     = each.value.object_type == "database" || each.value.object_type == "schema" ? null : each.value.objects
   privileges  = each.value.privileges
   columns     = each.value.object_type == "column" ? each.value.columns : null
 }

@@ -30,4 +30,5 @@ resource "helm_release" "release" {
   skip_crds                  = var.skip_crds
   namespace                  = var.namespace
   upgrade_install            = var.upgrade_install
+  wait                       = var.wait_until_resources
 }

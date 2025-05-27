@@ -73,3 +73,8 @@ variable "upgrade_install" {
   type        = bool
   default     = true
 }
+variable "wait_until_resources" {
+  description = "Wait until resources are up"
+  type        = bool
+  default     = true
+}
