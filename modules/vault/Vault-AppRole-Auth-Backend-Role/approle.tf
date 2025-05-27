@@ -28,4 +28,5 @@ resource "vault_approle_auth_backend_role" "app_role" {
 resource "vault_approle_auth_backend_role_secret_id" "secret_id" {
   backend   = vault_auth_backend.approle.path
   role_name = vault_approle_auth_backend_role.app_role.role_name
+  ttl       = var.secret_id_ttl
 }
