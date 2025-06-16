@@ -19,5 +19,5 @@
 
 variable "manifest" {
   description = "Kubernetes manifest to be applied"
-  type        = map(any)
+  type        = object({})
 }
