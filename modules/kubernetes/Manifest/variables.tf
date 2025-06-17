@@ -17,7 +17,12 @@
 #
 # --------------------------------------------------------------------------------------
 
-variable "manifest" {
+variable "manifest_location" {
   description = "Kubernetes manifest to be applied"
-  type        = object({})
+  type        = string
+}
+variable "template_map" {
+  description = "Map of variables to be used in the manifest template"
+  type        = map(string)
+  default     = {}
 }

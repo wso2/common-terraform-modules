@@ -18,5 +18,5 @@
 # --------------------------------------------------------------------------------------
 
 resource "kubernetes_manifest" "kubernetes_object" {
-  manifest = var.manifest
+  manifest = yamldecode(templatefile(var.manifest_location, var.template_map ))
 }
