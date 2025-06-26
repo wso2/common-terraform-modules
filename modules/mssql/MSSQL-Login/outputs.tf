@@ -1,5 +1,6 @@
+# -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com) All Rights Reserved.
 #
 # WSO2 LLC. licenses this file to you under the Apache License,
 # Version 2.0 (the "License"); you may not use this file except
@@ -17,6 +18,6 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "kubernetes_manifest" "kubernetes_object" {
-  manifest = yamldecode(templatefile(var.manifest_location, var.template_map))
+output "login_id" {
+  value = mssql_sql_login.sql_login.id
 }

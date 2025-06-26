@@ -1,5 +1,6 @@
+# -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com) All Rights Reserved.
 #
 # WSO2 LLC. licenses this file to you under the Apache License,
 # Version 2.0 (the "License"); you may not use this file except
@@ -17,6 +18,12 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "kubernetes_manifest" "kubernetes_object" {
-  manifest = yamldecode(templatefile(var.manifest_location, var.template_map))
+variable "database_name" {
+  description = "The name of the database to create."
+  type        = string
+}
+variable "collation" {
+  description = "The collation of the database."
+  type        = string
+  default     = "SQL_Latin1_General_CP1_CS_AS"
 }

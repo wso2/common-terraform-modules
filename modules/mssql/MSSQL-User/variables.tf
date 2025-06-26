@@ -1,5 +1,6 @@
+# -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com) All Rights Reserved.
 #
 # WSO2 LLC. licenses this file to you under the Apache License,
 # Version 2.0 (the "License"); you may not use this file except
@@ -17,6 +18,19 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "kubernetes_manifest" "kubernetes_object" {
-  manifest = yamldecode(templatefile(var.manifest_location, var.template_map))
+variable "user_name" {
+  description = "The name of the SQL user to create."
+  type        = string
+}
+variable "database_id" {
+  description = "The ID of the database where the SQL user will be created."
+  type        = string
+}
+variable "login_id" {
+  description = "The ID of the SQL login associated with the SQL user."
+  type        = string
+}
+variable "permissions" {
+  description = "List of permissions to assign to the SQL user."
+  type        = list(string)
 }
