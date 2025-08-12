@@ -135,31 +135,37 @@ variable "key_usage" {
 }
 
 variable "default_org_units" {
-  description = "Specifies which OU(s) to embed in the certificate’s Subject Distinguished Name (DN)"
+  description = "Specifies the OU(s) allowed in the certificate’s Subject Distinguished Name (DN)"
   type        = list(string)
   default     = []
 }
 
 variable "default_organizations" {
-  description = "Specifies the organization(s) embedded in the certificate’s Subject Distinguished Name (DN)"
+  description = "Specifies the organization(s) allowed in the certificate’s Subject Distinguished Name (DN)"
   type        = list(string)
   default     = []
 }
 
-variable "default_country" {
-  description = "Specifies the country embedded in the certificate’s Subject Distinguished Name (DN)"
+variable "default_countries" {
+  description = "Specifies the countries allowed in the certificate’s Subject Distinguished Name (DN)"
   type        = list(string)
   default     = []
 }
 
-variable "default_locality" {
-  description = "Specifies the locality embedded in the certificate’s Subject Distinguished Name (DN)"
+variable "default_localities" {
+  description = "Specifies the localities allowed in the certificate’s Subject Distinguished Name (DN)"
   type        = list(string)
   default     = []
 }
 
-variable "default_province" {
-  description = "Specifies the province embedded in the certificate’s Subject Distinguished Name (DN)"
+variable "default_provinces" {
+  description = "Specifies the provinces allowed in the certificate’s Subject Distinguished Name (DN)"
+  type        = list(string)
+  default     = []
+}
+
+variable "default_street_addresses" {
+  description = "Specifies the street address names allowed in the certificate’s Subject Distinguished Name (DN)"
   type        = list(string)
   default     = []
 }
