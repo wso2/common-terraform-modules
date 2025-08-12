@@ -40,8 +40,9 @@ resource "vault_pki_secret_backend_role" "role" {
   key_usage                   = var.key_usage
   ou                          = var.default_org_units
   organization                = var.default_organizations
-  country                     = var.default_country
-  locality                    = var.default_locality
-  province                    = var.default_province
+  country                     = var.default_countries
+  locality                    = var.default_localities
+  province                    = var.default_provinces
+  street_address              = var.default_street_addresses
   no_store                    = var.no_store
 }
