@@ -39,5 +39,6 @@ jobs:
           VALIDATE_YAML: true
           VALIDATE_BASH: true
           VALIDATE_TERRAFORM_TFLINT: true
+          VALIDATE_TERRAFORM_FMT: true
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
