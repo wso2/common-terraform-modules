@@ -60,7 +60,7 @@ variable "format" {
 variable "private_key_format" {
   description = "Private key's format"
   type        = string
-  default     = "pem"
+  default     = "pkcs8"
 }
 
 variable "min_seconds_remaining" {
