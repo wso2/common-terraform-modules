@@ -11,6 +11,9 @@
 
 resource "vault_auth_backend" "approle" {
   type = "approle"
+  tune {
+    max_lease_ttl = var.vault_auth_backend_max_lease_ttl
+  }
 }
 
 resource "vault_approle_auth_backend_role" "app_role" {

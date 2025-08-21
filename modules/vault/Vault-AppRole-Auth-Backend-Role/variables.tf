@@ -50,3 +50,9 @@ variable "secret_id_num_uses" {
   description = "The number of seconds after which any SecretID expires"
   type        = number
 }
+
+variable "vault_auth_backend_max_lease_ttl" {
+  type        = string
+  default     = "43800h"
+  description = "Global max lease TTL for the Hashicorp vault auth backend"
+}
