@@ -56,3 +56,9 @@ variable "vault_auth_backend_max_lease_ttl" {
   default     = "43800h"
   description = "Global max lease TTL for the Hashicorp vault auth backend"
 }
+
+variable "vault_auth_backend_default_lease_ttl" {
+  type        = string
+  default     = "43800h"
+  description = "Global default lease TTL for the Hashicorp vault auth backend"
+}
