@@ -12,7 +12,7 @@
 resource "vault_auth_backend" "approle" {
   type = "approle"
   tune {
-    max_lease_ttl = var.vault_auth_backend_max_lease_ttl
+    max_lease_ttl     = var.vault_auth_backend_max_lease_ttl
     default_lease_ttl = var.vault_auth_backend_default_lease_ttl
   }
 }
