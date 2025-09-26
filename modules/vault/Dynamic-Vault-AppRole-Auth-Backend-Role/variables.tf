@@ -64,11 +64,11 @@ variable "vault_auth_backend_default_lease_ttl" {
 }
 
 variable "secret_id_1_rotation_time_in_months" {
-  type = number
+  type    = number
   default = 61
 }
 
 variable "secret_id_2_rotation_time_in_months" {
-  type = number
+  type    = number
   default = 47
 }
