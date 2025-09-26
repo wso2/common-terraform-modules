@@ -9,16 +9,8 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "vault_auth_backend" "approle" {
-  type = "approle"
-  tune {
-    max_lease_ttl     = var.vault_auth_backend_max_lease_ttl
-    default_lease_ttl = var.vault_auth_backend_default_lease_ttl
-  }
-}
-
 resource "vault_approle_auth_backend_role" "app_role" {
-  backend            = vault_auth_backend.approle.path
+  backend            = var.backend
   role_name          = var.role_name
   token_policies     = var.token_policies
   bind_secret_id     = var.bind_secret_id
@@ -30,7 +22,7 @@ resource "vault_approle_auth_backend_role" "app_role" {
 }
 
 resource "vault_approle_auth_backend_role_secret_id" "secret_id" {
-  backend   = vault_auth_backend.approle.path
+  backend   = var.backend
   role_name = vault_approle_auth_backend_role.app_role.role_name
   ttl       = var.secret_id_ttl
 }

@@ -9,6 +9,11 @@
 #
 # --------------------------------------------------------------------------------------
 
+variable "backend" {
+  description = "The path where the AppRole auth backend is mounted"
+  type        = string
+}
+
 variable "role_name" {
   description = "Name of the App Role"
   type        = string
@@ -49,18 +54,6 @@ variable "token_max_ttl" {
 variable "secret_id_num_uses" {
   description = "The number of seconds after which any SecretID expires"
   type        = number
-}
-
-variable "vault_auth_backend_max_lease_ttl" {
-  type        = string
-  default     = "43800h"
-  description = "Global max lease TTL for the Hashicorp vault auth backend"
-}
-
-variable "vault_auth_backend_default_lease_ttl" {
-  type        = string
-  default     = "43800h"
-  description = "Global default lease TTL for the Hashicorp vault auth backend"
 }
 
 variable "secret_id_1_rotation_time_in_months" {
