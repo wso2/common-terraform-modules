@@ -35,7 +35,7 @@ resource "vault_approle_auth_backend_role_secret_id" "secret_id_1" {
   ttl       = var.secret_id_ttl
   metadata = jsonencode(
     {
-      rotation_time = time_rotating.secret_id_1.id
+      rotation_time = time_rotating.secret_id_1.rotation_rfc3339
     }
   )
   depends_on = [time_rotating.secret_id_1]
@@ -47,7 +47,7 @@ resource "vault_approle_auth_backend_role_secret_id" "secret_id_2" {
   ttl       = var.secret_id_ttl
   metadata = jsonencode(
     {
-      rotation_time = time_rotating.secret_id_1.id
+      rotation_time = time_rotating.secret_id_1.rotation_rfc3339
     }
   )
   depends_on = [time_rotating.secret_id_2]
