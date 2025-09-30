@@ -18,14 +18,26 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "mssql_sql_user" "sql_user" {
-  name        = var.user_name
-  database_id = var.database_id
-  login_id    = var.login_id
+resource "mongodb_db_index" "index" {
+  db         = var.db_name
+  collection = var.collection_name
+  name       = var.index_name
+  keys {
+    field = "field_name_to_index2"
+    value = "-1"
+  }
+  keys {
+    field = "field_name_to_index"
+    value = "1"
+  }
+  keys {
+    field = "unique"
+    value = "true"
+  }
+  keys {
+    field = "expireAfterSeconds"
+    value = "86400"
+  }
+  timeout = 30
 }
 
-resource "mssql_database_permission" "database_permission" {
-  for_each     = local.permissions_map
-  principal_id = mssql_sql_user.sql_user.id
-  permission   = each.key
-}

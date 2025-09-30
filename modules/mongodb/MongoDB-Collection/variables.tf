@@ -18,14 +18,21 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "mssql_sql_user" "sql_user" {
-  name        = var.user_name
-  database_id = var.database_id
-  login_id    = var.login_id
+variable "collection_name" {
+  description = "The name of the MongoDB collection."
+  type        = string
 }
-
-resource "mssql_database_permission" "database_permission" {
-  for_each     = local.permissions_map
-  principal_id = mssql_sql_user.sql_user.id
-  permission   = each.key
+variable "db_name" {
+  description = "The name of the MongoDB database."
+  type        = string
+}
+variable "record_pre_images" {
+  description = "Flag to enable or disable record pre-images for the MongoDB collection."
+  type        = bool
+  default     = false
+}
+variable "deletion_protection" {
+  description = "Flag to enable or disable deletion protection for the MongoDB collection."
+  type        = bool
+  default     = true
 }

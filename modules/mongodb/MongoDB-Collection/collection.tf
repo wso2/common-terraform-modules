@@ -18,14 +18,9 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "mssql_sql_user" "sql_user" {
-  name        = var.user_name
-  database_id = var.database_id
-  login_id    = var.login_id
-}
-
-resource "mssql_database_permission" "database_permission" {
-  for_each     = local.permissions_map
-  principal_id = mssql_sql_user.sql_user.id
-  permission   = each.key
+resource "mongodb_db_collection" "collection" {
+  db = var.db_name
+  name = var.collection_name
+  record_pre_images = var.record_pre_images
+  deletion_protection = var.deletion_protection
 }
