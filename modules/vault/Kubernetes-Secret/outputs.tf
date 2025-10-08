@@ -10,5 +10,5 @@
 # --------------------------------------------------------------------------------------
 
 output "version" {
-  value = vault_kv_secret_v2.secrets.metadata.version
+  value = vault_kv_secret_v2.secrets[0].metadata.version
 }
