@@ -55,3 +55,13 @@ variable "secret_id_num_uses" {
   description = "The number of seconds after which any SecretID expires"
   type        = number
 }
+
+variable "secret_id_1_rotation_time_in_months" {
+  type    = number
+  default = 61
+}
+
+variable "secret_id_2_rotation_time_in_months" {
+  type    = number
+  default = 47
+}

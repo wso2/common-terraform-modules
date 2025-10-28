@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2024, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
+# Copyright (c) 2025, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 #
 # This software is the property of WSO2 LLC. and its suppliers, if any.
 # Dissemination of any information or reproduction of any material contained
@@ -9,11 +9,10 @@
 #
 # --------------------------------------------------------------------------------------
 
-terraform {
-  required_providers {
-    vault = {
-      source  = "hashicorp/vault"
-      version = ">= 4.8.0"
-    }
-  }
+output "role_id" {
+  value = vault_approle_auth_backend_role.app_role.role_id
+}
+
+output "secret_id" {
+  value = time_rotating.secret_id_1.unix > time_rotating.secret_id_2.unix ? vault_approle_auth_backend_role_secret_id.secret_id_1.secret_id : vault_approle_auth_backend_role_secret_id.secret_id_2.secret_id
 }

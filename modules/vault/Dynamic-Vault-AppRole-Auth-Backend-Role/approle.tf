@@ -21,8 +21,34 @@ resource "vault_approle_auth_backend_role" "app_role" {
   secret_id_num_uses = var.secret_id_num_uses
 }
 
-resource "vault_approle_auth_backend_role_secret_id" "secret_id" {
+resource "time_rotating" "secret_id_1" {
+  rotation_months = var.secret_id_1_rotation_time_in_months
+}
+
+resource "time_rotating" "secret_id_2" {
+  rotation_months = var.secret_id_2_rotation_time_in_months
+}
+
+resource "vault_approle_auth_backend_role_secret_id" "secret_id_1" {
   backend   = var.backend
   role_name = vault_approle_auth_backend_role.app_role.role_name
   ttl       = var.secret_id_ttl
+  metadata = jsonencode(
+    {
+      rotation_time = time_rotating.secret_id_1.rotation_rfc3339
+    }
+  )
+  depends_on = [time_rotating.secret_id_1]
+}
+
+resource "vault_approle_auth_backend_role_secret_id" "secret_id_2" {
+  backend   = var.backend
+  role_name = vault_approle_auth_backend_role.app_role.role_name
+  ttl       = var.secret_id_ttl
+  metadata = jsonencode(
+    {
+      rotation_time = time_rotating.secret_id_2.rotation_rfc3339
+    }
+  )
+  depends_on = [time_rotating.secret_id_2]
 }
