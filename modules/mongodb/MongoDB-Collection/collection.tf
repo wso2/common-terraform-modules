@@ -19,8 +19,8 @@
 # --------------------------------------------------------------------------------------
 
 resource "mongodb_db_collection" "collection" {
-  db = var.db_name
-  name = var.collection_name
-  record_pre_images = var.record_pre_images
+  db                  = var.db_name
+  name                = var.collection_name
+  record_pre_images   = var.record_pre_images
   deletion_protection = var.deletion_protection
 }
