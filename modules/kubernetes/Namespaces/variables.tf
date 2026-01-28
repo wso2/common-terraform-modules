@@ -20,7 +20,7 @@
 variable "kubernetes_namespaces" {
   description = "Map of Kubernetes namespaces to create"
   type = map(object({
-    annotations = map(string)
-    labels      = map(string)
+    annotations = optional(map(string), {})
+    labels      = optional(map(string), {})
   }))
 }
