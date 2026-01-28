@@ -18,7 +18,7 @@
 # --------------------------------------------------------------------------------------
 
 variable "secrets" {
-  description = "Map of Kubernetes namespaces to create"
+  description = "Map of Kubernetes secrets to create"
   type = map(object({
     annotations = optional(map(string), {})
     labels      = optional(map(string), {})
