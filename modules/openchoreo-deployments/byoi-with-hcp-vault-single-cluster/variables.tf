@@ -21,7 +21,7 @@ variable "google_webhook_address" {
   sensitive   = true
 
   validation {
-    condition     = var.google_webhook_address == null || length(trim(var.google_webhook_address)) > 0
+    condition     = var.google_webhook_address == null || length(trimspace(var.google_webhook_address)) > 0
     error_message = "If set, google_webhook_address must not be an empty or whitespace-only string."
   }
 }
