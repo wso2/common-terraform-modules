@@ -39,3 +39,19 @@ module "kubernetes-secrets-external-secrets" {
     module.external-secrets-write-app-role
   ]
 }
+
+module "kubernetes-secrets-flux-system" {
+  source    = "../../kubernetes/Secrets"
+  count     = var.google_webhook_address == null || length(trimspace(var.google_webhook_address)) == 0 ? 0 : 1
+  namespace = "flux-system"
+  secrets = {
+    google-webhook = {
+      data = {
+        address = var.google_webhook_address
+      }
+    }
+  }
+  depends_on = [
+    module.fluxcd
+  ]
+}
