@@ -17,5 +17,11 @@ variable "flux_kustomization_path" {
 variable "google_webhook_address" {
   description = "The address of the Google webhook for flux alerts"
   type        = string
+  default     = null
   sensitive   = true
+
+  validation {
+    condition     = var.google_webhook_address == null || length(trim(var.google_webhook_address)) > 0
+    error_message = "If set, google_webhook_address must not be an empty or whitespace-only string."
+  }
 }
