@@ -13,3 +13,9 @@ variable "flux_kustomization_path" {
   description = "The path to the flux kustomization manifests."
   type        = string
 }
+
+variable "google_webhook_address" {
+  description = "The address of the Google webhook for flux alerts"
+  type        = string
+  sensitive   = true
+}
