@@ -53,7 +53,7 @@ resource "kubernetes_job_v1" "vault_init" {
         # Using Azure CLI as the base image
         container {
           name  = "init-and-upload"
-          image = "mcr.microsoft.com/azure-cli:latest"
+          image = "mcr.microsoft.com/azure-cli:2.82.0"
 
           env {
             name  = "VAULT_ADDR"
