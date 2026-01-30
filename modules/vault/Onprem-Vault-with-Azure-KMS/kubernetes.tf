@@ -95,11 +95,12 @@ resource "kubernetes_job_v1" "vault_init" {
             # 1. Install Vault binary
             echo "Installing Vault binary..."
             VAULT_VERSION="1.21.2"
+            VAULT_ZIP="vault_$${VAULT_VERSION}_linux_amd64.zip"
             apk add --no-cache curl unzip
-            curl -sSL "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip" -o vault.zip
-            curl -sSL "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_SHA256SUMS" -o vault_checksums.txt
-            grep "vault_${VAULT_VERSION}_linux_amd64.zip" vault_checksums.txt | sha256sum -c -
-            unzip vault.zip && mv vault /usr/local/bin/ && rm vault.zip vault_checksums.txt
+            curl -sSL "https://releases.hashicorp.com/vault/$${VAULT_VERSION}/vault_$${VAULT_VERSION}_linux_amd64.zip" -o "$VAULT_ZIP"
+            curl -sSL "https://releases.hashicorp.com/vault/$${VAULT_VERSION}/vault_$${VAULT_VERSION}_SHA256SUMS" -o vault_checksums.txt
+            grep "$VAULT_ZIP" vault_checksums.txt | sha256sum -c -
+            unzip "$VAULT_ZIP" && mv vault /usr/local/bin/ && rm "$VAULT_ZIP" vault_checksums.txt
 
             # 2. Wait for Vault pod to be reachable
             echo "Waiting for vault-0.vault-internal..."
