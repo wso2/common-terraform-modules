@@ -27,7 +27,7 @@ variable "secret1_rotation_time_in_months" {
   default     = 12
 }
 variable "secret2_rotation_offset_in_months" {
-  description = "The rotation time in months for the second secret."
+  description = "The rotation offset in months for the second secret (relative to the first secret's rotation)."
   type        = number
   default     = 6
 }
