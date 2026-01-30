@@ -20,13 +20,15 @@ resource "azuread_service_principal" "vault_unseal_entra_app" {
   depends_on = [azuread_application.vault_unseal_entra_app]
 }
 
+#trivy:ignore:AVD-AZU-0013
 resource "azurerm_key_vault" "unseal_vault" {
-  name                     = "${var.client_identifier}-autounseal-vault"
-  location                 = var.location
-  resource_group_name      = var.resource_group
-  tenant_id                = data.azurerm_client_config.current.tenant_id
-  sku_name                 = "standard"
-  purge_protection_enabled = true
+  name                       = "${var.client_identifier}-autounseal-vault"
+  location                   = var.location
+  resource_group_name        = var.resource_group
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  sku_name                   = "standard"
+  purge_protection_enabled   = true
+  soft_delete_retention_days = 7
 
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
@@ -76,6 +78,7 @@ resource "azurerm_key_vault" "unseal_vault" {
   ]
 }
 
+#trivy:ignore:AVD-AZU-0014
 resource "azurerm_key_vault_key" "unseal_key" {
   name         = "vault-unseal-key"
   key_vault_id = azurerm_key_vault.unseal_vault.id

@@ -94,14 +94,24 @@ resource "kubernetes_job_v1" "vault_init" {
             set -e
             # 1. Install Vault binary
             echo "Installing Vault binary..."
+            VAULT_VERSION="1.21.2"
             apk add --no-cache curl unzip
-            curl -sSL https://releases.hashicorp.com/vault/1.21.2/vault_1.21.2_linux_amd64.zip -o vault.zip
-            unzip vault.zip && mv vault /usr/local/bin/ && rm vault.zip
+            curl -sSL "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip" -o vault.zip
+            curl -sSL "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_SHA256SUMS" -o vault_checksums.txt
+            grep "vault_${VAULT_VERSION}_linux_amd64.zip" vault_checksums.txt | sha256sum -c -
+            unzip vault.zip && mv vault /usr/local/bin/ && rm vault.zip vault_checksums.txt
 
             # 2. Wait for Vault pod to be reachable
             echo "Waiting for vault-0.vault-internal..."
+            TIMEOUT=300
+            ELAPSED=0
             until curl -s $VAULT_ADDR/v1/sys/health > /dev/null; do
-              sleep 5
+              if [ $ELAPSED -ge $TIMEOUT ]; then
+                echo "Timeout waiting for Vault to become healthy"
+                exit 1
+              fi
+               sleep 5
+              ELAPSED=$((ELAPSED + 5))
             done
 
             # 3. Check initialization status
@@ -125,7 +135,7 @@ resource "kubernetes_job_v1" "vault_init" {
                 --name "vault-init-output" \
                 --file "/tmp/keys.json" \
                 --description "Vault recovery keys and root token generated on $(date)"
-
+              rm -f /tmp/keys.json
               echo "Initialization successful and keys backed up."
             else
               echo "Vault is already initialized (Status: $INIT_STATUS). Skipping."
