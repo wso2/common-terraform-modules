@@ -18,22 +18,16 @@ resource "helm_release" "vault" {
 
   values = [<<EOF
 server:
-  extraEnvironmentVars:
-      AZURE_TENANT_ID:
-        valueFrom:
-          secretKeyRef:
-            name: vault-azure-creds
-            key: AZURE_TENANT_ID
-      AZURE_CLIENT_ID:
-        valueFrom:
-          secretKeyRef:
-            name: vault-azure-creds
-            key: AZURE_CLIENT_ID
-      AZURE_CLIENT_SECRET:
-        valueFrom:
-          secretKeyRef:
-            name: vault-azure-creds
-            key: AZURE_CLIENT_SECRET
+  extraSecretEnvironmentVars:
+    - envName: AZURE_TENANT_ID
+      secretName: vault-azure-creds
+      secretKey: AZURE_TENANT_ID
+    - envName: AZURE_CLIENT_ID
+      secretName: vault-azure-creds
+      secretKey: AZURE_CLIENT_ID
+    - envName: AZURE_CLIENT_SECRET
+      secretName: vault-azure-creds
+      secretKey: AZURE_CLIENT_SECRET
   ha:
     enabled: true
     raft:
@@ -56,6 +50,7 @@ server:
 EOF
   ]
   depends_on = [
+    kubernetes_namespace_v1.vault,
     kubernetes_secret_v1.vault_azure_creds,
     azurerm_key_vault.unseal_vault,
     azurerm_key_vault_key.unseal_key
