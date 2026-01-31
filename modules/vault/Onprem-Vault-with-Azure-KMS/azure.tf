@@ -11,6 +11,16 @@
 
 data "azurerm_client_config" "current" {}
 
+locals {
+  suffix             = "-unseal-vault"
+  max_name_len       = 24
+  allowed_prefix_len = max(0, local.max_name_len - length(local.suffix))
+  raw_id             = regexreplace(lower(var.client_identifier), "[^a-z0-9-]", "")
+  safe_id            = trim(local.raw_id, "-")
+  truncated_id       = substr(local.safe_id, 0, local.allowed_prefix_len)
+  vault_name         = length(local.truncated_id) > 0 ? "${local.truncated_id}${local.suffix}" : "kv${local.suffix}"
+}
+
 resource "azuread_application" "vault_unseal_entra_app" {
   display_name = "${var.client_identifier}-vault-onprem-unseal"
 }
@@ -22,7 +32,7 @@ resource "azuread_service_principal" "vault_unseal_entra_app" {
 
 #trivy:ignore:AVD-AZU-0013
 resource "azurerm_key_vault" "unseal_vault" {
-  name                       = "${var.client_identifier}-autounseal-vault"
+  name                       = local.vault_name
   location                   = var.location
   resource_group_name        = var.resource_group
   tenant_id                  = data.azurerm_client_config.current.tenant_id
