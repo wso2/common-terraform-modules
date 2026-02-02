@@ -86,10 +86,8 @@ module "external-secrets-write-app-role" {
 }
 
 resource "vault_kv_secret_v2" "registry_credentials" {
-  mount               = module.secrets-mount.path
-  name                = "registry-credentials"
-  cas                 = 1
-  delete_all_versions = true
+  mount = module.secrets-mount.path
+  name  = "registry-credentials"
   data_json = jsonencode(
     {
       "dockerconfigjson" = jsonencode(
