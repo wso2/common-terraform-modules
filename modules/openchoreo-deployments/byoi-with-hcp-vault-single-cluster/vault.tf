@@ -84,3 +84,26 @@ module "external-secrets-write-app-role" {
     module.external-secrets-automation-vault-write-policy
   ]
 }
+
+resource "vault_kv_secret_v2" "registry_credentials" {
+  mount = module.secrets-mount.path
+  name  = "registry-credentials"
+  data_json = jsonencode(
+    {
+      "dockerconfigjson" = jsonencode(
+        {
+          auths = {
+            (var.docker_registry_host) = {
+              username = var.docker_registry_username
+              password = var.docker_registry_password
+              auth     = base64encode("${var.docker_registry_username}:${var.docker_registry_password}")
+            }
+          }
+        }
+      )
+    }
+  )
+  depends_on = [
+    module.secrets-mount
+  ]
+}
