@@ -10,6 +10,7 @@
 # --------------------------------------------------------------------------------------
 
 terraform {
+  required_version = ">= 1.10"
   required_providers {
     vault = {
       source  = "hashicorp/vault"
@@ -18,6 +19,10 @@ terraform {
     postgresql = {
       source  = "cyrilgdn/postgresql"
       version = ">= 1.26.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.8.0"
     }
   }
 }

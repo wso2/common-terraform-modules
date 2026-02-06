@@ -39,11 +39,11 @@ resource "postgresql_role" "thunder_db_user" {
 
 resource "postgresql_database" "thunder_dbs" {
   # When not Postgres, iterate an empty map so no databases are created
-  for_each = local.is_postgres ? local.databases : {}
+  for_each = local.is_postgres ? local.databases : toset([])
   name     = each.key
 
   # SETTING THE OWNER IS KEY
-  # By making app_user the owner, they inherently have:
+  # By making thunder_db_user the owner, they inherently have:
   # - READ/WRITE privileges
   # - ALTER privileges (Create/Drop tables)
   # - ACCESS to the public schema
