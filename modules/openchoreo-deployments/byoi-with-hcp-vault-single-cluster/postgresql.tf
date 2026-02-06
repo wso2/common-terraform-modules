@@ -10,11 +10,11 @@
 # --------------------------------------------------------------------------------------
 
 locals {
-  databases   = toset(["thunderdb", "runtimedb", "userdb"])
-  is_postgres = var.thunder_db_type == "postgres"
+  databases   = toset(["thunderdb", "runtimedb", "userdb", "backstage"])
+  is_postgres = var.oc_system_db_type == "postgres"
 }
 
-ephemeral "random_password" "thunder_db_password" {
+ephemeral "random_password" "oc_system_db_password" {
   # Create the random password only when using Postgres
   count            = local.is_postgres ? 1 : 0
   length           = 16
@@ -22,19 +22,19 @@ ephemeral "random_password" "thunder_db_password" {
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
-resource "postgresql_role" "thunder_db_user" {
+resource "postgresql_role" "oc_system_db_user" {
   # Create role only for Postgres
   count = local.is_postgres ? 1 : 0
 
-  name  = var.thunder_db_user_name
+  name  = var.oc_system_db_username
   login = true
   # When created, the password resource will exist at index 0
-  password_wo         = ephemeral.random_password.thunder_db_password[0].result
-  password_wo_version = var.thunder_db_user_password_version
+  password_wo         = ephemeral.random_password.oc_system_db_password[0].result
+  password_wo_version = var.oc_system_db_password_version
   create_database     = false
 }
 
-resource "postgresql_database" "thunder_dbs" {
+resource "postgresql_database" "oc_system_dbs" {
   # When not Postgres, iterate an empty map so no databases are created
   for_each = local.is_postgres ? local.databases : toset([])
   name     = each.key
@@ -44,7 +44,7 @@ resource "postgresql_database" "thunder_dbs" {
   # - READ/WRITE privileges
   # - ALTER privileges (Create/Drop tables)
   # - ACCESS to the public schema
-  owner = postgresql_role.thunder_db_user[0].name
+  owner = postgresql_role.oc_system_db_user[0].name
 
   encoding = "UTF8"
 }
@@ -57,11 +57,11 @@ resource "kubernetes_secret_v1" "thunder_db_credentials" {
   }
 
   data_wo = {
-    thunder_db_username = var.thunder_db_user_name
-    thunder_db_password = ephemeral.random_password.thunder_db_password[0].result
+    thunder_db_username = var.oc_system_db_username
+    thunder_db_password = ephemeral.random_password.oc_system_db_password[0].result
   }
 
-  data_wo_revision = var.thunder_db_user_password_version
+  data_wo_revision = var.oc_system_db_password_version
 
   type = "Opaque"
 }
