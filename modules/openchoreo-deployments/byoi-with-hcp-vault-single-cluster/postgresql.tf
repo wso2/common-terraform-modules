@@ -20,9 +20,6 @@ ephemeral "random_password" "thunder_db_password" {
   length           = 16
   special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
-  keepers = {
-    version = var.thunder_db_user_password_version
-  }
 }
 
 resource "postgresql_role" "thunder_db_user" {
