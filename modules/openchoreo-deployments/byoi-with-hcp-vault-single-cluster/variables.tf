@@ -42,3 +42,26 @@ variable "docker_registry_password" {
   type        = string
   sensitive   = true
 }
+
+variable "thunder_db_user_password_version" {
+  description = "The version identifier for the ThunderDB user password, used to trigger password rotation."
+  type        = string
+  default     = "1"
+}
+
+variable "thunder_db_user_name" {
+  description = "The username for the ThunderDB PostgreSQL user."
+  type        = string
+  default     = "thunder_db_user"
+}
+
+variable "thunder_db_type" {
+  description = "Type of the Thunder DB. When set to \"postgres\" PostgreSQL resources will be created."
+  type        = string
+  default     = "postgres"
+
+  validation {
+    condition     = contains(["postgres", "mysql", "mssql", "sqlite", "none"], var.thunder_db_type)
+    error_message = "thunder_db_type must be one of: \"postgres\", \"mysql\", \"mssql\", \"sqlite\", or \"none\"."
+  }
+}
