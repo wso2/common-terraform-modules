@@ -44,13 +44,13 @@ variable "docker_registry_password" {
 }
 
 variable "oc_system_db_password_version" {
-  description = "The version identifier for the ThunderDB user password, used to trigger password rotation."
+  description = "The version identifier for the OC system DB user password, used to trigger password rotation."
   type        = string
   default     = "1"
 }
 
 variable "oc_system_db_username" {
-  description = "The username for the ThunderDB PostgreSQL user."
+  description = "The username for the OC system DB PostgreSQL user."
   type        = string
   default     = "oc_system_db_user"
 }
@@ -61,7 +61,7 @@ variable "oc_system_db_type" {
   default     = "postgres"
 
   validation {
-    condition     = contains(["postgres", "mysql", "mssql", "sqlite", "none"], var.thunder_db_type)
+    condition     = contains(["postgres", "mysql", "mssql", "sqlite", "none"], var.oc_system_db_type)
     error_message = "oc_system_db_type must be one of: \"postgres\", \"mysql\", \"mssql\", \"sqlite\", or \"none\"."
   }
 }
