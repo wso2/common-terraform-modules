@@ -40,10 +40,10 @@ module "external-secrets-automation-vault-write-policy" {
   policy_name       = "external-secrets-automation-write-policy"
   policy_definition = <<EOT
 path "${module.secrets-mount.path}/data/automation/*" {
-  capabilities = ["create", "update", "patch", "delete", "recover", "read", "list"]
+  capabilities = ["create", "update", "patch", "delete", "read", "list"]
 }
 path "${module.secrets-mount.path}/metadata/automation/*" {
-  capabilities = ["create", "update", "patch", "delete", "recover", "read", "list"]
+  capabilities = ["create", "update", "patch", "delete", "read", "list"]
 }
 EOT
   depends_on = [
