@@ -31,7 +31,7 @@ resource "postgresql_role" "oc_system_db_user" {
   # When created, the password resource will exist at index 0
   password_wo         = ephemeral.random_password.oc_system_db_password[0].result
   password_wo_version = var.oc_system_db_password_version
-  create_database     = false
+  create_database     = true
 }
 
 resource "postgresql_database" "oc_system_dbs" {
