@@ -31,7 +31,7 @@ resource "postgresql_role" "thunder_db_user" {
   # When created, the password resource will exist at index 0
   password_wo         = ephemeral.random_password.thunder_db_password[0].result
   password_wo_version = var.thunder_db_user_password_version
-  createdb            = false
+  create_database     = false
 }
 
 resource "postgresql_database" "thunder_dbs" {
