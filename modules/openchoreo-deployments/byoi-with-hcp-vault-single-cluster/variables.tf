@@ -35,12 +35,24 @@ variable "docker_registry_username" {
   description = "The Docker registry username for pulling images."
   type        = string
   sensitive   = true
+  default     = null
+
+  validation {
+    condition     = var.container_registry_type == "harbor" || (var.docker_registry_username != null && length(trimspace(var.docker_registry_username)) > 0)
+    error_message = "docker_registry_username must not be empty when container_registry_type is not \"harbor\"."
+  }
 }
 
 variable "docker_registry_password" {
   description = "The Docker registry password for pulling images."
   type        = string
   sensitive   = true
+  default     = null
+
+  validation {
+    condition     = var.container_registry_type == "harbor" || (var.docker_registry_password != null && length(trimspace(var.docker_registry_password)) > 0)
+    error_message = "docker_registry_password must not be empty when container_registry_type is not \"harbor\"."
+  }
 }
 
 variable "oc_system_db_password_version" {
