@@ -65,3 +65,14 @@ variable "oc_system_db_type" {
     error_message = "oc_system_db_type must be one of: \"postgres\", \"mysql\", \"mssql\", \"sqlite\", or \"none\"."
   }
 }
+
+variable "container_registry_type" {
+  description = "Type of the container registry. When set to \"harbor\" Harbor resources will be created."
+  type        = string
+  default     = "none"
+
+  validation {
+    condition     = contains(["harbor", "none"], var.container_registry_type)
+    error_message = "container_registry_type must be one of: \"harbor\" or \"none\"."
+  }
+}

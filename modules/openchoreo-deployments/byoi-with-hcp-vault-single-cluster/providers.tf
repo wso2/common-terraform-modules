@@ -28,5 +28,9 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = ">= 3.0.0"
     }
+    harbor = {
+      source  = "goharbor/harbor"
+      version = ">= 3.11.0"
+    }
   }
 }

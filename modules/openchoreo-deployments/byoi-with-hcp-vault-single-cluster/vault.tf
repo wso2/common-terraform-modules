@@ -9,6 +9,12 @@
 #
 # --------------------------------------------------------------------------------------
 
+locals {
+  registry_username = local.is_harbour ? harbor_robot_account.openchoreo_system_user.name : var.docker_registry_username
+  registry_password = local.is_harbour ? random_password.openchoreo_cr_system_user_password[0].result : var.docker_registry_password
+  registry_auth     = base64encode("${local.registry_username}:${local.registry_password}")
+}
+
 module "auth-backend-approle" {
   source = "../../vault/Vault-Auth-Backend"
   type   = "approle"
@@ -94,9 +100,9 @@ resource "vault_kv_secret_v2" "registry_credentials" {
         {
           auths = {
             (var.docker_registry_host) = {
-              username = var.docker_registry_username
-              password = var.docker_registry_password
-              auth     = base64encode("${var.docker_registry_username}:${var.docker_registry_password}")
+              username = local.registry_username
+              password = local.registry_password
+              auth     = local.registry_auth
             }
           }
         }
