@@ -10,8 +10,8 @@
 # --------------------------------------------------------------------------------------
 
 locals {
-  registry_username = local.is_harbour ? harbor_robot_account.openchoreo_system_user.name : var.docker_registry_username
-  registry_password = local.is_harbour ? random_password.openchoreo_cr_system_user_password[0].result : var.docker_registry_password
+  registry_username = local.is_harbor ? harbor_robot_account.openchoreo_system_user[0].name : var.docker_registry_username
+  registry_password = local.is_harbor ? random_password.openchoreo_cr_system_user_password[0].result : var.docker_registry_password
   registry_auth     = base64encode("${local.registry_username}:${local.registry_password}")
 }
 

@@ -10,23 +10,23 @@
 # --------------------------------------------------------------------------------------
 
 locals {
-  is_harbour = var.container_registry_type == "harbour"
+  is_harbor = var.container_registry_type == "harbor"
 }
 
 resource "random_password" "openchoreo_cr_system_user_password" {
-  count   = local.is_harbour ? 1 : 0
+  count   = local.is_harbor ? 1 : 0
   length  = 12
   special = false
 }
 
 resource "harbor_project" "openchoreo" {
-  count                = local.is_harbour ? 1 : 0
+  count                = local.is_harbor ? 1 : 0
   name                 = "main"
   auto_sbom_generation = true
 }
 
 resource "harbor_robot_account" "openchoreo_system_user" {
-  count       = local.is_harbour ? 1 : 0
+  count       = local.is_harbor ? 1 : 0
   name        = "openchoreo-system-user"
   description = "Robot account for OpenChoreo to pull/push images from/to Harbor registry"
   level       = "project"
