@@ -21,7 +21,7 @@ resource "random_password" "openchoreo_cr_system_user_password" {
 
 resource "harbor_project" "openchoreo" {
   count                = local.is_harbor ? 1 : 0
-  name                 = "main"
+  name                 = "openchoreo"
   auto_sbom_generation = true
 }
 
