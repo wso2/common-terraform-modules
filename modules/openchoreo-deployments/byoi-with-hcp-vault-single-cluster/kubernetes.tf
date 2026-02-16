@@ -10,7 +10,7 @@
 # --------------------------------------------------------------------------------------
 
 module "kubernetes-namespaces" {
-  count     = local.is_vault ? 1 : 0
+  count  = local.is_vault ? 1 : 0
   source = "../../kubernetes/Namespaces"
   kubernetes_namespaces = {
     external-secrets = {}
