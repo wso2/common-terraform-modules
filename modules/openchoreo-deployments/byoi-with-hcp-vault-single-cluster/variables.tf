@@ -99,3 +99,33 @@ variable "secret_store_type" {
     error_message = "secret_store_type must be one of: \"vault\" or \"none\"."
   }
 }
+
+variable "secrets_mount_path" {
+  description = "The mount path in Vault where secrets will be stored."
+  type        = string
+  default     = "secrets"
+}
+
+variable "external_secrets_vault_read_policy_name" {
+  description = "The name of the Vault policy for External Secrets read access."
+  type        = string
+  default     = "external-secrets-default-read-policy"
+}
+
+variable "external_secrets_vault_write_policy_name" {
+  description = "The name of the Vault policy for External Secrets write access."
+  type        = string
+  default     = "external-secrets-automation-write-policy"
+}
+
+variable "external_secrets_read_role_name" {
+  description = "The name of the Vault AppRole for External Secrets read access."
+  type        = string
+  default     = "external-secrets-read"
+}
+
+variable "external_secrets_write_role_name" {
+  description = "The name of the Vault AppRole for External Secrets write access."
+  type        = string
+  default     = "external-secrets-write"
+}
