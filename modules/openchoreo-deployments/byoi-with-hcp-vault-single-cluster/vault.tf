@@ -10,29 +10,33 @@
 # --------------------------------------------------------------------------------------
 
 locals {
+  is_vault          = var.secret_store_type == "vault"
   registry_username = local.is_harbor ? harbor_robot_account.openchoreo_system_user[0].full_name : var.docker_registry_username
   registry_password = local.is_harbor ? random_password.openchoreo_cr_system_user_password[0].result : var.docker_registry_password
   registry_auth     = base64encode("${local.registry_username}:${local.registry_password}")
 }
 
 module "auth-backend-approle" {
+  count  = local.is_vault ? 1 : 0
   source = "../../vault/Vault-Auth-Backend"
   type   = "approle"
 }
 
 module "secrets-mount" {
+  count  = local.is_vault ? 1 : 0
   source = "../../vault/Vault-Mount"
   path   = "secrets"
 }
 
 module "external-secrets-default-vault-read-policy" {
+  count             = local.is_vault ? 1 : 0
   source            = "../../vault/Vault-Policy"
   policy_name       = "external-secrets-default-read-policy"
   policy_definition = <<EOT
-path "${module.secrets-mount.path}/*" {
+path "${module.secrets-mount[0].path}/*" {
   capabilities = ["read", "list"]
 }
-path "${module.secrets-mount.path}/metadata/*" {
+path "${module.secrets-mount[0].path}/metadata/*" {
   capabilities = ["list"]
 }
 EOT
@@ -42,13 +46,14 @@ EOT
 }
 
 module "external-secrets-automation-vault-write-policy" {
+  count             = local.is_vault ? 1 : 0
   source            = "../../vault/Vault-Policy"
   policy_name       = "external-secrets-automation-write-policy"
   policy_definition = <<EOT
-path "${module.secrets-mount.path}/data/automation/*" {
+path "${module.secrets-mount[0].path}/data/automation/*" {
   capabilities = ["create", "update", "patch", "delete", "read", "list"]
 }
-path "${module.secrets-mount.path}/metadata/automation/*" {
+path "${module.secrets-mount[0].path}/metadata/automation/*" {
   capabilities = ["create", "update", "patch", "delete", "read", "list"]
 }
 EOT
@@ -58,10 +63,11 @@ EOT
 }
 
 module "external-secrets-read-app-role" {
+  count              = local.is_vault ? 1 : 0
   source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
-  backend            = module.auth-backend-approle.path
+  backend            = module.auth-backend-approle[0].path
   role_name          = "external-secrets-read"
-  token_policies     = [module.external-secrets-default-vault-read-policy.policy_name]
+  token_policies     = [module.external-secrets-default-vault-read-policy[0].policy_name]
   secret_id_ttl      = 157680000
   token_type         = "default"
   token_ttl          = 3600
@@ -75,10 +81,11 @@ module "external-secrets-read-app-role" {
 }
 
 module "external-secrets-write-app-role" {
+  count              = local.is_vault ? 1 : 0
   source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
-  backend            = module.auth-backend-approle.path
+  backend            = module.auth-backend-approle[0].path
   role_name          = "external-secrets-write"
-  token_policies     = [module.external-secrets-automation-vault-write-policy.policy_name]
+  token_policies     = [module.external-secrets-automation-vault-write-policy[0].policy_name]
   secret_id_ttl      = 157680000
   token_type         = "default"
   token_ttl          = 3600
@@ -92,7 +99,8 @@ module "external-secrets-write-app-role" {
 }
 
 resource "vault_kv_secret_v2" "registry_credentials" {
-  mount = module.secrets-mount.path
+  count = local.is_vault ? 1 : 0
+  mount = module.secrets-mount[0].path
   name  = "registry-credentials"
   data_json = jsonencode(
     {
