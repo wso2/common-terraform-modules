@@ -88,3 +88,14 @@ variable "container_registry_type" {
     error_message = "container_registry_type must be one of: \"harbor\" or \"none\"."
   }
 }
+
+variable "secret_store_type" {
+  description = "Type of the secret store. When set to \"vault\" Vault resources will be created."
+  type        = string
+  default     = "vault"
+
+  validation {
+    condition     = contains(["vault", "none"], var.secret_store_type)
+    error_message = "secret_store_type must be one of: \"vault\" or \"none\"."
+  }
+}

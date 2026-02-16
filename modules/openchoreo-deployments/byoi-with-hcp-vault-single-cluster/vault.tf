@@ -10,22 +10,26 @@
 # --------------------------------------------------------------------------------------
 
 locals {
+  is_vault          = var.secret_store_type == "vault"
   registry_username = local.is_harbor ? harbor_robot_account.openchoreo_system_user[0].full_name : var.docker_registry_username
   registry_password = local.is_harbor ? random_password.openchoreo_cr_system_user_password[0].result : var.docker_registry_password
   registry_auth     = base64encode("${local.registry_username}:${local.registry_password}")
 }
 
 module "auth-backend-approle" {
+  count  = local.is_vault ? 1 : 0
   source = "../../vault/Vault-Auth-Backend"
   type   = "approle"
 }
 
 module "secrets-mount" {
+  count  = local.is_vault ? 1 : 0
   source = "../../vault/Vault-Mount"
   path   = "secrets"
 }
 
 module "external-secrets-default-vault-read-policy" {
+  count             = local.is_vault ? 1 : 0
   source            = "../../vault/Vault-Policy"
   policy_name       = "external-secrets-default-read-policy"
   policy_definition = <<EOT
@@ -42,6 +46,7 @@ EOT
 }
 
 module "external-secrets-automation-vault-write-policy" {
+  count             = local.is_vault ? 1 : 0
   source            = "../../vault/Vault-Policy"
   policy_name       = "external-secrets-automation-write-policy"
   policy_definition = <<EOT
@@ -58,6 +63,7 @@ EOT
 }
 
 module "external-secrets-read-app-role" {
+  count              = local.is_vault ? 1 : 0
   source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
   backend            = module.auth-backend-approle.path
   role_name          = "external-secrets-read"
@@ -75,6 +81,7 @@ module "external-secrets-read-app-role" {
 }
 
 module "external-secrets-write-app-role" {
+  count              = local.is_vault ? 1 : 0
   source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
   backend            = module.auth-backend-approle.path
   role_name          = "external-secrets-write"
@@ -92,6 +99,7 @@ module "external-secrets-write-app-role" {
 }
 
 resource "vault_kv_secret_v2" "registry_credentials" {
+  count = local.is_vault ? 1 : 0
   mount = module.secrets-mount.path
   name  = "registry-credentials"
   data_json = jsonencode(
