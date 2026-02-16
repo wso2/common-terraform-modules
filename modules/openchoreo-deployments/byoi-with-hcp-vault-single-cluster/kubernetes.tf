@@ -17,19 +17,20 @@ module "kubernetes-namespaces" {
 }
 
 module "kubernetes-secrets-external-secrets" {
+  count     = local.is_vault ? 1 : 0
   source    = "../../kubernetes/Secrets"
   namespace = "external-secrets"
   secrets = {
     approle-creds-read-permission = {
       data = {
-        role_id   = module.external-secrets-read-app-role.role_id
-        secret_id = module.external-secrets-read-app-role.secret_id
+        role_id   = module.external-secrets-read-app-role[0].role_id
+        secret_id = module.external-secrets-read-app-role[0].secret_id
       }
     }
     approle-creds-write-permission = {
       data = {
-        role_id   = module.external-secrets-write-app-role.role_id
-        secret_id = module.external-secrets-write-app-role.secret_id
+        role_id   = module.external-secrets-write-app-role[0].role_id
+        secret_id = module.external-secrets-write-app-role[0].secret_id
       }
     }
   }

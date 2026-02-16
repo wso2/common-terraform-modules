@@ -33,10 +33,10 @@ module "external-secrets-default-vault-read-policy" {
   source            = "../../vault/Vault-Policy"
   policy_name       = "external-secrets-default-read-policy"
   policy_definition = <<EOT
-path "${module.secrets-mount.path}/*" {
+path "${module.secrets-mount[0].path}/*" {
   capabilities = ["read", "list"]
 }
-path "${module.secrets-mount.path}/metadata/*" {
+path "${module.secrets-mount[0].path}/metadata/*" {
   capabilities = ["list"]
 }
 EOT
@@ -50,10 +50,10 @@ module "external-secrets-automation-vault-write-policy" {
   source            = "../../vault/Vault-Policy"
   policy_name       = "external-secrets-automation-write-policy"
   policy_definition = <<EOT
-path "${module.secrets-mount.path}/data/automation/*" {
+path "${module.secrets-mount[0].path}/data/automation/*" {
   capabilities = ["create", "update", "patch", "delete", "read", "list"]
 }
-path "${module.secrets-mount.path}/metadata/automation/*" {
+path "${module.secrets-mount[0].path}/metadata/automation/*" {
   capabilities = ["create", "update", "patch", "delete", "read", "list"]
 }
 EOT
@@ -65,9 +65,9 @@ EOT
 module "external-secrets-read-app-role" {
   count              = local.is_vault ? 1 : 0
   source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
-  backend            = module.auth-backend-approle.path
+  backend            = module.auth-backend-approle[0].path
   role_name          = "external-secrets-read"
-  token_policies     = [module.external-secrets-default-vault-read-policy.policy_name]
+  token_policies     = [module.external-secrets-default-vault-read-policy[0].policy_name]
   secret_id_ttl      = 157680000
   token_type         = "default"
   token_ttl          = 3600
@@ -83,9 +83,9 @@ module "external-secrets-read-app-role" {
 module "external-secrets-write-app-role" {
   count              = local.is_vault ? 1 : 0
   source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
-  backend            = module.auth-backend-approle.path
+  backend            = module.auth-backend-approle[0].path
   role_name          = "external-secrets-write"
-  token_policies     = [module.external-secrets-automation-vault-write-policy.policy_name]
+  token_policies     = [module.external-secrets-automation-vault-write-policy[0].policy_name]
   secret_id_ttl      = 157680000
   token_type         = "default"
   token_ttl          = 3600
@@ -100,7 +100,7 @@ module "external-secrets-write-app-role" {
 
 resource "vault_kv_secret_v2" "registry_credentials" {
   count = local.is_vault ? 1 : 0
-  mount = module.secrets-mount.path
+  mount = module.secrets-mount[0].path
   name  = "registry-credentials"
   data_json = jsonencode(
     {
