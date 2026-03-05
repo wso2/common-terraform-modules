@@ -1,0 +1,52 @@
+# -------------------------------------------------------------------------------------
+#
+# Copyright (c) 2026, WSO2 LLC (http://www.wso2.com). All Rights Reserved.
+#
+# This software is the property of WSO2 LLC and its suppliers, if any.
+# Dissemination of any information or reproduction of any material contained
+# herein in any form is strictly forbidden, unless permitted by WSO2 expressly.
+# You may not alter or remove any copyright or other notice from copies of this content.
+#
+# --------------------------------------------------------------------------------------
+
+terraform {
+  required_version = ">= 1.10"
+  required_providers {
+    vault = {
+      source  = "hashicorp/vault"
+      version = ">= 5.6.0"
+    }
+    postgresql = {
+      source  = "cyrilgdn/postgresql"
+      version = ">= 1.26.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.8.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 3.0.0"
+      configuration_aliases = [
+        kubernetes.oc_cp,
+        kubernetes.oc_dp,
+        kubernetes.oc_ci,
+        kubernetes.oc_ob
+      ]
+    }
+    harbor = {
+      source  = "goharbor/harbor"
+      version = ">= 3.11.0"
+    }
+    fluxcd = {
+      source  = "fluxcd/fluxcd"
+      version = ">= 0.17.0"
+      configuration_aliases = [
+        fluxcd.oc_cp,
+        fluxcd.oc_dp,
+        fluxcd.oc_ci,
+        fluxcd.oc_ob
+      ]
+    }
+  }
+}
