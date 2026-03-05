@@ -63,6 +63,6 @@ resource "kubernetes_secret_v1" "thunder_db_credentials" {
 
   data_wo_revision = var.oc_system_db_password_version
 
-  type = "Opaque"
+  type     = "Opaque"
   provider = kubernetes.oc_cp
 }
