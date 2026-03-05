@@ -44,6 +44,11 @@ variable "google_webhook_address" {
 variable "docker_registry_host" {
   description = "The Docker registry host for pulling/pushing images."
   type        = string
+
+  validation {
+    condition     = length(trimspace(var.docker_registry_host)) > 0
+    error_message = "docker_registry_host must not be empty or whitespace-only."
+  }
 }
 
 variable "docker_registry_username" {
