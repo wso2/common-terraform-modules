@@ -15,7 +15,7 @@ locals {
   suffix             = "-unseal-vault"
   max_name_len       = 24
   allowed_prefix_len = max(0, local.max_name_len - length(local.suffix))
-  raw_id             = regexreplace(lower(var.client_identifier), "[^a-z0-9-]", "")
+  raw_id             = replace(lower(var.client_identifier), "[^a-z0-9-]", "")
   safe_id            = trim(local.raw_id, "-")
   truncated_id       = substr(local.safe_id, 0, local.allowed_prefix_len)
   vault_name         = length(local.truncated_id) > 0 ? "${local.truncated_id}${local.suffix}" : "kv${local.suffix}"
