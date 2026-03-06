@@ -55,12 +55,6 @@ variable "oc_system_db_password_version" {
   default     = "1"
 }
 
-variable "oc_system_db_username" {
-  description = "The username for the OC system DB PostgreSQL user."
-  type        = string
-  default     = "oc_system_db_user"
-}
-
 variable "oc_system_db_type" {
   description = "Type of the OC system DB. When set to \"postgres\" PostgreSQL resources will be created."
   type        = string
@@ -155,5 +149,5 @@ variable "oc_system_db_postgres_port" {
 variable "oc_system_db_system_username" {
   description = "The username for the OpenChoreo System database user."
   type        = string
-  default     = "oc_system_user"
+  default     = "oc_system_db_user"
 }

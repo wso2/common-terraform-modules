@@ -26,7 +26,7 @@ resource "postgresql_role" "oc_system_db_user" {
   # Create role only for Postgres
   count = local.is_postgres ? 1 : 0
 
-  name  = var.oc_system_db_username
+  name  = var.oc_system_db_system_username
   login = true
   # When created, the password resource will exist at index 0
   password_wo         = ephemeral.random_password.oc_system_db_password[0].result
