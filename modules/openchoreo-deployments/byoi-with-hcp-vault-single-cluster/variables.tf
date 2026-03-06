@@ -133,17 +133,29 @@ variable "backstage_admin_username" {
 variable "environment" {
   description = "The environment for which the cluster is being provisioned (e.g., dev, staging, prod)"
   type        = string
+  validation {
+    condition     = length(trimspace(var.environment)) > 0
+    error_message = "environment must not be empty or whitespace-only."
+  }
 }
 
 variable "oc_system_db_postgres_host" {
   description = "The hostname or IP address of the OpenChoreo System PostgreSQL database."
   type        = string
+  validation {
+    condition     = length(trimspace(var.oc_system_db_postgres_host)) > 0
+    error_message = "oc_system_db_postgres_host must not be empty or whitespace-only."
+  }
 }
 
 variable "oc_system_db_postgres_port" {
   description = "The port number on which the OpenChoreo System PostgreSQL database is listening."
   type        = number
   default     = 5432
+  validation {
+    condition     = var.oc_system_db_postgres_port >= 1 && var.oc_system_db_postgres_port <= 65535
+    error_message = "oc_system_db_postgres_port must be between 1 and 65535."
+  }
 }
 
 variable "oc_system_db_system_username" {
