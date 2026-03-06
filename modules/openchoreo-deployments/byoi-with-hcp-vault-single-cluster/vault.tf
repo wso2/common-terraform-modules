@@ -98,13 +98,35 @@ module "external-secrets-write-app-role" {
   ]
 }
 
-resource "vault_kv_secret_v2" "registry_credentials" {
+resource "vault_kv_secret_v2" "oc_system_secrets" {
   count = local.is_vault ? 1 : 0
   mount = module.secrets-mount[0].path
-  name  = "registry-credentials"
+  name  = "system"
   data_json = jsonencode(
     {
-      "dockerconfigjson" = jsonencode(
+      backstage-admin-username           = join("-", [var.environment, var.backstage_admin_username]),
+      backstage-admin-password           = random_password.backstage_admin_password.result,
+      backstage-client-id                = random_id.backstage_client_id.hex,
+      backstage-client-secret            = random_password.backstage_client_secret.result,
+      customer-portal-client-id          = random_id.customer_portal_client_id.hex,
+      customer-portal-client-secret      = random_password.customer_portal_client_secret.result,
+      rca-agent-client-id                = random_id.rca_agent_client_id.hex,
+      rca-agent-client-secret            = random_password.rca_agent_client_secret.result,
+      system-app-client-id               = random_id.system_app_client_id.hex,
+      system-app-client-secret           = random_password.system_app_client_secret.result,
+      service-mcp-client-id              = random_id.service_mcp_client_id.hex,
+      service-mcp-client-secret          = random_password.service_mcp_client_secret.result,
+      backstage-backend-secret           = random_password.backstage_backend_secret.result,
+      jenkins-api-key                    = "unused",
+      oc-system-db-postgres-host         = var.oc_system_db_postgres_host,
+      oc-system-db-postgres-port         = var.oc_system_db_postgres_port,
+      oc-system-db-postgres-user         = var.oc_system_db_system_username,
+      oc-system-db-postgres-password     = ephemeral.random_password.oc_system_db_password.result,
+      oc-system-db-backstage-postgres-db = "backstagedb"
+      opensearch-password                = random_password.opensearch_password.result
+      opensearch-username                = var.opensearch_username
+      google-webhook-address             = var.google_webhook_address
+      dockerconfigjson = jsonencode(
         {
           auths = {
             (var.docker_registry_host) = {
@@ -117,7 +139,4 @@ resource "vault_kv_secret_v2" "registry_credentials" {
       )
     }
   )
-  depends_on = [
-    module.secrets-mount
-  ]
 }

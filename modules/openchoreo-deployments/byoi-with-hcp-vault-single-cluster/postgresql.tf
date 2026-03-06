@@ -10,7 +10,7 @@
 # --------------------------------------------------------------------------------------
 
 locals {
-  databases   = toset(["thunderdb", "runtimedb", "userdb", "backstage"])
+  databases   = toset(["thunderdb", "runtimedb", "userdb", "backstagedb"])
   is_postgres = var.oc_system_db_type == "postgres"
 }
 
@@ -47,21 +47,4 @@ resource "postgresql_database" "oc_system_dbs" {
   owner = postgresql_role.oc_system_db_user[0].name
 
   encoding = "UTF8"
-}
-
-resource "kubernetes_secret_v1" "thunder_db_credentials" {
-  count = local.is_postgres ? 1 : 0
-  metadata {
-    name      = "thunder-db-credentials"
-    namespace = "flux-system"
-  }
-
-  data_wo = {
-    thunder_db_username = var.oc_system_db_username
-    thunder_db_password = ephemeral.random_password.oc_system_db_password[0].result
-  }
-
-  data_wo_revision = var.oc_system_db_password_version
-
-  type = "Opaque"
 }
