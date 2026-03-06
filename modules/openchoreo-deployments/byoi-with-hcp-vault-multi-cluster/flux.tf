@@ -14,7 +14,7 @@ module "oc-cp-fluxcd" {
   source = "../../flux/Flux-Deployment"
   path   = var.oc_cp_flux_kustomization_path
   providers = {
-    fluxcd = fluxcd.oc_cp
+    flux = flux.oc_cp
   }
 }
 
@@ -22,7 +22,7 @@ module "oc-dp-fluxcd" {
   source = "../../flux/Flux-Deployment"
   path   = var.oc_dp_flux_kustomization_path
   providers = {
-    fluxcd = fluxcd.oc_dp
+    flux = flux.oc_dp
   }
 }
 
@@ -30,7 +30,7 @@ module "oc-ci-fluxcd" {
   source = "../../flux/Flux-Deployment"
   path   = var.oc_ci_flux_kustomization_path
   providers = {
-    fluxcd = fluxcd.oc_ci
+    flux = flux.oc_ci
   }
 }
 
@@ -38,6 +38,6 @@ module "oc-ob-fluxcd" {
   source = "../../flux/Flux-Deployment"
   path   = var.oc_ob_flux_kustomization_path
   providers = {
-    fluxcd = fluxcd.oc_ob
+    flux = flux.oc_ob
   }
 }
