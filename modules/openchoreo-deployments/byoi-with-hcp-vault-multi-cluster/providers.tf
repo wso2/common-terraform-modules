@@ -38,14 +38,14 @@ terraform {
       source  = "goharbor/harbor"
       version = ">= 3.11.0"
     }
-    fluxcd = {
-      source  = "fluxcd/fluxcd"
-      version = ">= 0.17.0"
+    flux = {
+      source  = "fluxcd/flux"
+      version = ">= 1.5.1"
       configuration_aliases = [
-        fluxcd.oc_cp,
-        fluxcd.oc_dp,
-        fluxcd.oc_ci,
-        fluxcd.oc_ob
+        flux.oc_cp,
+        flux.oc_dp,
+        flux.oc_ci,
+        flux.oc_ob
       ]
     }
   }
