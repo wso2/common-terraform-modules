@@ -39,8 +39,8 @@ terraform {
       version = ">= 3.11.0"
     }
     flux = {
-      source  = "fluxcd/fluxcd"
-      version = ">= 0.17.0"
+      source  = "fluxcd/flux"
+      version = ">= 1.5.1"
       configuration_aliases = [
         flux.oc_cp,
         flux.oc_dp,
