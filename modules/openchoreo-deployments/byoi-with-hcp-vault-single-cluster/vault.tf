@@ -116,6 +116,8 @@ resource "vault_kv_secret_v2" "oc_system_secrets" {
       system-app-client-secret           = random_password.system_app_client_secret.result,
       service-mcp-client-id              = random_id.service_mcp_client_id.hex,
       service-mcp-client-secret          = random_password.service_mcp_client_secret.result,
+      oc-observer-client-id              = random_id.oc_observer_client_id.hex,
+      oc-observer-client-secret          = random_password.oc_observer_client_secret.result,
       backstage-backend-secret           = random_password.backstage_backend_secret.result,
       jenkins-api-key                    = "unused",
       oc-system-db-postgres-host         = var.oc_system_db_postgres_host,
