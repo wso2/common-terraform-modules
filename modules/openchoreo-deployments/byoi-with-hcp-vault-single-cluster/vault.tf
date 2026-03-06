@@ -124,7 +124,7 @@ resource "vault_kv_secret_v2" "oc_system_secrets" {
       oc-system-db-postgres-port         = var.oc_system_db_postgres_port,
       oc-system-db-postgres-user         = var.oc_system_db_system_username,
       oc-system-db-postgres-password     = ephemeral.random_password.oc_system_db_password[0].result,
-      oc-system-db-backstage-postgres-db = "backstagedb"
+      oc-system-db-backstage-postgres-db = "backstage"
       opensearch-password                = random_password.opensearch_password.result
       opensearch-username                = var.opensearch_username
       google-webhook-address             = var.google_webhook_address
