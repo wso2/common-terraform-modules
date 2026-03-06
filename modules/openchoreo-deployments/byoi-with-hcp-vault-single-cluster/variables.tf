@@ -17,13 +17,7 @@ variable "flux_kustomization_path" {
 variable "google_webhook_address" {
   description = "The address of the Google webhook for flux alerts"
   type        = string
-  default     = null
   sensitive   = true
-
-  validation {
-    condition     = var.google_webhook_address == null || length(trimspace(var.google_webhook_address)) > 0
-    error_message = "If set, google_webhook_address must not be an empty or whitespace-only string."
-  }
 }
 
 variable "docker_registry_host" {
@@ -59,12 +53,6 @@ variable "oc_system_db_password_version" {
   description = "The version identifier for the OC system DB user password, used to trigger password rotation."
   type        = string
   default     = "1"
-}
-
-variable "oc_system_db_username" {
-  description = "The username for the OC system DB PostgreSQL user."
-  type        = string
-  default     = "oc_system_db_user"
 }
 
 variable "oc_system_db_type" {
@@ -128,4 +116,50 @@ variable "external_secrets_write_role_name" {
   description = "The name of the Vault AppRole for External Secrets write access."
   type        = string
   default     = "external-secrets-write"
+}
+
+variable "opensearch_username" {
+  description = "The username for authenticating to the OpenSearch cluster."
+  type        = string
+  default     = "admin"
+}
+
+variable "backstage_admin_username" {
+  description = "The username for the Backstage admin user."
+  type        = string
+  default     = "admin@openchoreo.dev"
+}
+
+variable "environment" {
+  description = "The environment for which the cluster is being provisioned (e.g., dev, staging, prod)"
+  type        = string
+  validation {
+    condition     = length(trimspace(var.environment)) > 0
+    error_message = "environment must not be empty or whitespace-only."
+  }
+}
+
+variable "oc_system_db_postgres_host" {
+  description = "The hostname or IP address of the OpenChoreo System PostgreSQL database."
+  type        = string
+  validation {
+    condition     = length(trimspace(var.oc_system_db_postgres_host)) > 0
+    error_message = "oc_system_db_postgres_host must not be empty or whitespace-only."
+  }
+}
+
+variable "oc_system_db_postgres_port" {
+  description = "The port number on which the OpenChoreo System PostgreSQL database is listening."
+  type        = number
+  default     = 5432
+  validation {
+    condition     = var.oc_system_db_postgres_port >= 1 && var.oc_system_db_postgres_port <= 65535
+    error_message = "oc_system_db_postgres_port must be between 1 and 65535."
+  }
+}
+
+variable "oc_system_db_system_username" {
+  description = "The username for the OpenChoreo System database user."
+  type        = string
+  default     = "oc_system_db_user"
 }
