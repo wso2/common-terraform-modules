@@ -12,25 +12,41 @@
 terraform {
   required_version = ">= 1.10"
   required_providers {
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = ">= 3.4.0"
+    vault = {
+      source  = "hashicorp/vault"
+      version = ">= 5.6.0"
     }
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 4.58.0"
+    postgresql = {
+      source  = "cyrilgdn/postgresql"
+      version = ">= 1.26.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.8.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 3.0.1"
+      version = ">= 3.0.0"
+      configuration_aliases = [
+        kubernetes.oc_cp,
+        kubernetes.oc_dp,
+        kubernetes.oc_ci,
+        kubernetes.oc_ob
+      ]
     }
-    helm = {
-      source  = "hashicorp/helm"
-      version = ">= 2.17.0"
+    harbor = {
+      source  = "goharbor/harbor"
+      version = ">= 3.11.0"
     }
-    time = {
-      source  = "hashicorp/time"
-      version = ">= 0.13.1"
+    fluxcd = {
+      source  = "fluxcd/fluxcd"
+      version = ">= 0.17.0"
+      configuration_aliases = [
+        fluxcd.oc_cp,
+        fluxcd.oc_dp,
+        fluxcd.oc_ci,
+        fluxcd.oc_ob
+      ]
     }
   }
 }
