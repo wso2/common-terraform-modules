@@ -49,12 +49,6 @@ variable "docker_registry_password" {
   }
 }
 
-variable "oc_system_db_password_version" {
-  description = "The version identifier for the OC system DB user password, used to trigger password rotation."
-  type        = string
-  default     = "1"
-}
-
 variable "oc_system_db_type" {
   description = "Type of the OC system DB. When set to \"postgres\" PostgreSQL resources will be created."
   type        = string

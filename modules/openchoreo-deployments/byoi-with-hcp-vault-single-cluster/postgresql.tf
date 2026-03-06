@@ -14,14 +14,6 @@ locals {
   is_postgres = var.oc_system_db_type == "postgres"
 }
 
-ephemeral "random_password" "oc_system_db_password" {
-  # Create the random password only when using Postgres
-  count            = local.is_postgres ? 1 : 0
-  length           = 16
-  special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
-}
-
 resource "postgresql_role" "oc_system_db_user" {
   # Create role only for Postgres
   count = local.is_postgres ? 1 : 0
@@ -29,9 +21,8 @@ resource "postgresql_role" "oc_system_db_user" {
   name  = var.oc_system_db_system_username
   login = true
   # When created, the password resource will exist at index 0
-  password_wo         = ephemeral.random_password.oc_system_db_password[0].result
-  password_wo_version = var.oc_system_db_password_version
-  create_database     = true
+  password        = random_password.oc_system_db_password[0].result
+  create_database = true
 }
 
 resource "postgresql_database" "oc_system_dbs" {
