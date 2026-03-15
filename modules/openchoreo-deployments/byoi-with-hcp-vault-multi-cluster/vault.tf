@@ -123,7 +123,7 @@ resource "vault_kv_secret_v2" "oc_system_secrets" {
       oc-system-db-postgres-host         = var.oc_system_db_postgres_host,
       oc-system-db-postgres-port         = var.oc_system_db_postgres_port,
       oc-system-db-postgres-user         = var.oc_system_db_system_username,
-      oc-system-db-postgres-password     = random_password.oc_system_db_password[0].result,
+      oc-system-db-postgres-password     = local.is_postgres ? random_password.oc_system_db_password[0].result : null,
       oc-system-db-backstage-postgres-db = "backstage"
       opensearch-password                = random_password.opensearch_password.result
       opensearch-username                = var.opensearch_username
