@@ -142,8 +142,9 @@ variable "backstage_admin_username" {
 variable "environment" {
   description = "The environment for which the cluster is being provisioned (e.g., dev, staging, prod)"
   type        = string
+  default     = null
   validation {
-    condition     = length(trimspace(var.environment)) > 0
+    condition     = (var.environment != null && length(trimspace(var.environment)) > 0)
     error_message = "environment must not be empty or whitespace-only."
   }
 }
@@ -151,8 +152,9 @@ variable "environment" {
 variable "oc_system_db_postgres_host" {
   description = "The hostname or IP address of the OpenChoreo System PostgreSQL database."
   type        = string
+  default     = null
   validation {
-    condition     = length(trimspace(var.oc_system_db_postgres_host)) > 0
+    condition     = (var.oc_system_db_type != "postgres") || (var.oc_system_db_postgres_host != null && length(trimspace(var.oc_system_db_postgres_host)) > 0)
     error_message = "oc_system_db_postgres_host must not be empty or whitespace-only."
   }
 }
