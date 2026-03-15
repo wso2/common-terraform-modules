@@ -66,6 +66,7 @@ module "oc-dp-kubernetes-secrets-external-secrets" {
   secrets = {
     approle-creds-read-permission = {
       data = {
+        role_id   = module.external-secrets-read-app-role[0].role_id
         secret_id = module.external-secrets-read-app-role[0].secret_id
       }
     }
@@ -104,6 +105,7 @@ module "oc-ci-kubernetes-secrets-external-secrets" {
   secrets = {
     approle-creds-read-permission = {
       data = {
+        role_id   = module.external-secrets-read-app-role[0].role_id
         secret_id = module.external-secrets-read-app-role[0].secret_id
       }
     }
@@ -142,6 +144,7 @@ module "oc-ob-kubernetes-secrets-external-secrets" {
   secrets = {
     approle-creds-read-permission = {
       data = {
+        role_id   = module.external-secrets-read-app-role[0].role_id
         secret_id = module.external-secrets-read-app-role[0].secret_id
       }
     }
