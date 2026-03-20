@@ -157,3 +157,51 @@ variable "oc_system_db_system_username" {
   type        = string
   default     = "oc_system_db_user"
 }
+
+variable "cicd_github_app_id" {
+  description = "The GitHub App ID for the CI/CD integration."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+variable "cicd_github_app_installation_id" {
+  description = "The GitHub App Installation ID for the CI/CD integration."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+variable "cicd_github_app_private_key" {
+  description = "The private key of the GitHub App for the CI/CD integration."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+variable "cicd_github_app_client_id" {
+  description = "The client ID of the GitHub App for the CI/CD integration."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+variable "cicd_ecr_access_key_id" {
+  description = "The AWS access key ID for authenticating to ECR in the CI/CD integration."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+variable "cicd_ecr_secret_access_key" {
+  description = "The AWS secret access key for authenticating to ECR in the CI/CD integration."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+variable "cicd_ecr_region" {
+  description = "The AWS region where the ECR registry is located for the CI/CD integration."
+  type        = string
+  default     = ""
+}
+variable "github_cicd_webhook_secret" {
+  description = "The secret used to secure the GitHub webhook for CI/CD integration."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
