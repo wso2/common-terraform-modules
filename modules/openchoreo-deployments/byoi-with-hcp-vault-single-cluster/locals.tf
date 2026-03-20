@@ -52,6 +52,7 @@ locals {
     oc-system-db-backstage-postgres-db = "backstage"
     opensearch-password                = random_password.opensearch_password.result
     opensearch-username                = var.opensearch_username
+    google-webhook-address             = var.google_webhook_address
     dockerconfigjson = jsonencode(
       {
         auths = {

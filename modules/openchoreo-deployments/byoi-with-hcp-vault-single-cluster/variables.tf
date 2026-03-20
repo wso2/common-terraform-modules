@@ -14,6 +14,12 @@ variable "flux_kustomization_path" {
   type        = string
 }
 
+variable "google_webhook_address" {
+  description = "The address of the Google webhook for flux alerts"
+  type        = string
+  sensitive   = true
+}
+
 variable "docker_registry_host" {
   description = "The Docker registry host for pulling/pushing images."
   type        = string
