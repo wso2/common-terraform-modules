@@ -14,12 +14,6 @@ variable "flux_kustomization_path" {
   type        = string
 }
 
-variable "google_webhook_address" {
-  description = "The address of the Google webhook for flux alerts"
-  type        = string
-  sensitive   = true
-}
-
 variable "docker_registry_host" {
   description = "The Docker registry host for pulling/pushing images."
   type        = string
@@ -161,40 +155,40 @@ variable "oc_system_db_system_username" {
 variable "cicd_github_app_id" {
   description = "The GitHub App ID for the CI/CD integration."
   type        = string
-  default = ""
+  default     = ""
 }
 variable "cicd_github_app_installation_id" {
   description = "The GitHub App Installation ID for the CI/CD integration."
   type        = string
-  default = ""
+  default     = ""
 }
 variable "cicd_github_app_private_key" {
   description = "The private key of the GitHub App for the CI/CD integration."
   type        = string
-  default = ""
+  default     = ""
 }
 variable "cicd_github_app_client_id" {
   description = "The client ID of the GitHub App for the CI/CD integration."
   type        = string
-  default = ""
+  default     = ""
 }
 variable "cicd_ecr_access_key_id" {
   description = "The AWS access key ID for authenticating to ECR in the CI/CD integration."
   type        = string
-  default = ""
+  default     = ""
 }
 variable "cicd_ecr_secret_access_key" {
   description = "The AWS secret access key for authenticating to ECR in the CI/CD integration."
   type        = string
-  default = ""
+  default     = ""
 }
 variable "cicd_ecr_region" {
   description = "The AWS region where the ECR registry is located for the CI/CD integration."
   type        = string
-  default = ""
+  default     = ""
 }
 variable "github_cicd_webhook_secret" {
   description = "The secret used to secure the GitHub webhook for CI/CD integration."
   type        = string
-  default = ""
+  default     = ""
 }
