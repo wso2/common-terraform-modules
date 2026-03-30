@@ -118,7 +118,7 @@ resource "postgresql_grant" "rw_schema" {
   role        = postgresql_role.db_users[each.value.user].name
   schema      = "public"
   object_type = "schema"
-  privileges  = ["USAGE"]
+  privileges  = ["USAGE", "CREATE"]
 }
 
 resource "postgresql_grant" "rw_tables" {
