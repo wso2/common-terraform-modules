@@ -67,6 +67,15 @@ resource "random_password" "service_mcp_client_secret" {
   special = false
 }
 
+resource "random_id" "workload_publisher_client_id" {
+  byte_length = 12
+}
+
+resource "random_password" "workload_publisher_client_secret" {
+  length  = 24
+  special = false
+}
+
 resource "random_id" "oc_observer_client_id" {
   byte_length = 12
 }
