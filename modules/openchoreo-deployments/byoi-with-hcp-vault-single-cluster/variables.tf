@@ -194,6 +194,11 @@ variable "cicd_ecr_secret_access_key" {
   default     = ""
   sensitive   = true
 }
+variable "cicd_ecr_account_id" {
+  description = "The AWS account ID where the ECR registry is located for the CI/CD integration."
+  type        = string
+  default     = ""
+}
 variable "cicd_ecr_region" {
   description = "The AWS region where the ECR registry is located for the CI/CD integration."
   type        = string
