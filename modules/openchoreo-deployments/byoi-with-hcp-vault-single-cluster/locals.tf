@@ -19,7 +19,8 @@ locals {
     var.cicd_github_app_client_id,
     var.cicd_ecr_access_key_id,
     var.cicd_ecr_secret_access_key,
-    var.cicd_ecr_region
+    var.cicd_ecr_region,
+    var.cicd_ecr_account_id
   ]
 
   # 2. Evaluate if ALL of them have a valid value
@@ -79,6 +80,7 @@ locals {
           access-key-id     = var.cicd_ecr_access_key_id
           secret-access-key = var.cicd_ecr_secret_access_key
           region            = var.cicd_ecr_region
+          account-id        = var.cicd_ecr_account_id
         }
       }
     }
