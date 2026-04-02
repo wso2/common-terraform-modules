@@ -174,3 +174,26 @@ variable "oc_system_db_system_username" {
   type        = string
   default     = "oc_system_db_user"
 }
+
+variable "cicd_ecr_access_key_id" {
+  description = "The AWS access key ID for authenticating to ECR in the CI/CD integration."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+variable "cicd_ecr_secret_access_key" {
+  description = "The AWS secret access key for authenticating to ECR in the CI/CD integration."
+  type        = string
+  default     = ""
+  sensitive   = true
+}
+variable "cicd_ecr_account_id" {
+  description = "The AWS account ID where the ECR registry is located for the CI/CD integration."
+  type        = string
+  default     = ""
+}
+variable "cicd_ecr_region" {
+  description = "The AWS region where the ECR registry is located for the CI/CD integration."
+  type        = string
+  default     = ""
+}

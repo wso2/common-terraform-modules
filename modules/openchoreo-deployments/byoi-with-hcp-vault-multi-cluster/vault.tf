@@ -102,5 +102,10 @@ resource "vault_kv_secret_v2" "oc_system_secrets" {
   count     = local.is_vault ? 1 : 0
   mount     = module.secrets-mount[0].path
   name      = "system"
-  data_json = jsonencode(local.base_secrets)
+  data_json = jsonencode(
+    merge(
+      local.base_secrets,
+      local.include_cicd ? local.cicd_block : {}
+    )
+  )
 }
