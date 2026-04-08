@@ -157,3 +157,9 @@ variable "oc_system_db_system_username" {
   type        = string
   default     = "oc_system_db_user"
 }
+
+variable "prefix_vault_resources" {
+  description = "Custom prefix for Vault resources (e.g., policies, roles). Useful for distinguishing resources when using a shared Vault instance."
+  type        = string
+  default     = ""
+}
