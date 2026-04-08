@@ -17,7 +17,7 @@ variable "type" {
 variable "path" {
   type        = string
   description = "The path where the auth backend will be mounted (e.g., 'my-auth-backend')"
-  default = null
+  default     = null
 }
 
 variable "max_lease_ttl" {
