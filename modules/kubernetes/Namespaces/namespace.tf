@@ -17,7 +17,7 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "kubernetes_namespace" "namespace" {
+resource "kubernetes_namespace_v1" "namespace" {
   for_each = var.kubernetes_namespaces
   metadata {
     annotations = each.value.annotations

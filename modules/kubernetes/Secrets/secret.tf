@@ -17,7 +17,7 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "kubernetes_secret" "secret" {
+resource "kubernetes_secret_v1" "secret" {
   for_each = var.secrets
 
   metadata {
@@ -31,4 +31,3 @@ resource "kubernetes_secret" "secret" {
 
   data = each.value.data
 }
-
