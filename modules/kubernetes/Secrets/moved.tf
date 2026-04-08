@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+# Copyright (c) 2026, WSO2 LLC. (https://www.wso2.com).
 #
 # WSO2 LLC. licenses this file to you under the Apache License,
 # Version 2.0 (the "License"); you may not use this file except
@@ -17,17 +17,7 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "kubernetes_secret_v1" "secret" {
-  for_each = var.secrets
-
-  metadata {
-    name        = each.key
-    namespace   = var.namespace
-    labels      = each.value.labels
-    annotations = each.value.annotations
-  }
-
-  type = "kubernetes.io/${each.value.type}"
-
-  data = each.value.data
+moved {
+  from = kubernetes_secret.secret
+  to   = kubernetes_secret_v1.secret
 }
