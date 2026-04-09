@@ -10,19 +10,6 @@
 # --------------------------------------------------------------------------------------
 
 locals {
-
-  # 1. Group all CI/CD variables into a list to check them easily
-  cicd_vars = [
-    var.cicd_ecr_access_key_id,
-    var.cicd_ecr_secret_access_key,
-    var.cicd_ecr_region,
-    var.cicd_ecr_account_id
-  ]
-
-  # 2. Evaluate if ALL of them have a valid value
-  include_cicd = alltrue([for v in local.cicd_vars : (v != null && v != "")])
-
-  # 3. Define the base secrets that are always present
   base_secrets = {
     backstage-admin-username           = join("-", [var.environment, var.backstage_admin_username])
     backstage-admin-password           = random_password.backstage_admin_password.result
@@ -61,19 +48,5 @@ locals {
         }
       }
     )
-  }
-
-  # 4. Define the CI/CD block structure
-  cicd_block = {
-    cicd = {
-      container-registry = {
-        ecr = {
-          access-key-id     = var.cicd_ecr_access_key_id
-          secret-access-key = var.cicd_ecr_secret_access_key
-          region            = var.cicd_ecr_region
-          account-id        = var.cicd_ecr_account_id
-        }
-      }
-    }
   }
 }
