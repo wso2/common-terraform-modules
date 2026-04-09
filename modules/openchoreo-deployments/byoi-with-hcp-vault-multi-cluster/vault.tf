@@ -20,6 +20,7 @@ module "auth-backend-approle" {
   count  = local.is_vault ? 1 : 0
   source = "../../vault/Vault-Auth-Backend"
   type   = "approle"
+  path   = "${var.prefix_vault_resources}approle"
 }
 
 module "secrets-mount" {
@@ -31,7 +32,7 @@ module "secrets-mount" {
 module "external-secrets-default-vault-read-policy" {
   count             = local.is_vault ? 1 : 0
   source            = "../../vault/Vault-Policy"
-  policy_name       = var.external_secrets_vault_read_policy_name
+  policy_name       = "${var.prefix_vault_resources}${var.external_secrets_vault_read_policy_name}"
   policy_definition = <<EOT
 path "${module.secrets-mount[0].path}/*" {
   capabilities = ["read", "list"]
@@ -48,7 +49,7 @@ EOT
 module "external-secrets-automation-vault-write-policy" {
   count             = local.is_vault ? 1 : 0
   source            = "../../vault/Vault-Policy"
-  policy_name       = var.external_secrets_vault_write_policy_name
+  policy_name       = "${var.prefix_vault_resources}${var.external_secrets_vault_write_policy_name}"
   policy_definition = <<EOT
 path "${module.secrets-mount[0].path}/data/automation/*" {
   capabilities = ["create", "update", "patch", "delete", "read", "list"]
@@ -66,7 +67,7 @@ module "external-secrets-read-app-role" {
   count              = local.is_vault ? 1 : 0
   source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
   backend            = module.auth-backend-approle[0].path
-  role_name          = var.external_secrets_read_role_name
+  role_name          = "${var.prefix_vault_resources}${var.external_secrets_read_role_name}"
   token_policies     = [module.external-secrets-default-vault-read-policy[0].policy_name]
   secret_id_ttl      = 157680000
   token_type         = "default"
@@ -84,7 +85,7 @@ module "external-secrets-write-app-role" {
   count              = local.is_vault ? 1 : 0
   source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
   backend            = module.auth-backend-approle[0].path
-  role_name          = var.external_secrets_write_role_name
+  role_name          = "${var.prefix_vault_resources}${var.external_secrets_write_role_name}"
   token_policies     = [module.external-secrets-automation-vault-write-policy[0].policy_name]
   secret_id_ttl      = 157680000
   token_type         = "default"
