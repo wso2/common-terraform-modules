@@ -24,6 +24,9 @@ module "oc-dp-fluxcd" {
   providers = {
     flux = flux.oc_dp
   }
+  depends_on = [
+    module.oc-cp-fluxcd
+  ]
 }
 
 module "oc-ci-fluxcd" {
@@ -32,6 +35,9 @@ module "oc-ci-fluxcd" {
   providers = {
     flux = flux.oc_ci
   }
+  depends_on = [
+    module.oc-dp-fluxcd
+  ]
 }
 
 module "oc-ob-fluxcd" {
@@ -40,4 +46,7 @@ module "oc-ob-fluxcd" {
   providers = {
     flux = flux.oc_ob
   }
+  depends_on = [
+    module.oc-ci-fluxcd
+  ]
 }
