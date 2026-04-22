@@ -10,7 +10,7 @@
 # --------------------------------------------------------------------------------------
 
 
-resource "opensearch_monitor" "pdp_monitor_1" {
+resource "opensearch_monitor" "opensearch_monitor_config" {
   body = jsonencode({
     type         = var.monitor_configuration.type
     name         = var.monitor_configuration.name
