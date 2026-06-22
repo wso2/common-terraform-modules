@@ -37,6 +37,7 @@ locals {
     opensearch-password                = random_password.opensearch_password.result
     opensearch-username                = var.opensearch_username
     google-webhook-address             = var.google_webhook_address
+    preshared-monitoring-agent-token   = var.preshared_monitoring_agent_token
     dockerconfigjson = jsonencode(
       {
         auths = {

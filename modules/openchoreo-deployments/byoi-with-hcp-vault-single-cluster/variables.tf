@@ -163,3 +163,9 @@ variable "prefix_vault_resources" {
   type        = string
   default     = ""
 }
+
+variable "preshared_monitoring_agent_token" {
+  description = "A pre-shared token for the monitoring agent."
+  type        = string
+  default     = ""
+}
