@@ -78,3 +78,9 @@ variable "wait_until_resources" {
   type        = bool
   default     = true
 }
+
+variable "timeout" {
+  description = "Time in seconds to wait for any individual kubernetes operation. Null uses the provider default (300)."
+  type        = number
+  default     = null
+}
