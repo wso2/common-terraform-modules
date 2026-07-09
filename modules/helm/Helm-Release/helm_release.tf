@@ -31,4 +31,5 @@ resource "helm_release" "release" {
   namespace                  = var.namespace
   upgrade_install            = var.upgrade_install
   wait                       = var.wait_until_resources
+  timeout                    = var.timeout
 }
