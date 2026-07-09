@@ -1,0 +1,107 @@
+# -------------------------------------------------------------------------------------
+#
+# Copyright (c) 2026, WSO2 LLC (http://www.wso2.com). All Rights Reserved.
+#
+# This software is the property of WSO2 LLC and its suppliers, if any.
+# Dissemination of any information or reproduction of any material contained
+# herein in any form is strictly forbidden, unless permitted by WSO2 expressly.
+# You may not alter or remove any copyright or other notice from copies of this content.
+#
+# --------------------------------------------------------------------------------------
+
+locals {
+  is_vault      = var.secret_store_type == "vault"
+  registry_auth = base64encode("${var.docker_registry_username}:${var.docker_registry_password}")
+}
+
+module "auth-backend-approle" {
+  count  = local.is_vault ? 1 : 0
+  source = "../../vault/Vault-Auth-Backend"
+  type   = "approle"
+  path   = "${var.prefix_vault_resources}approle"
+}
+
+module "secrets-mount" {
+  count  = local.is_vault ? 1 : 0
+  source = "../../vault/Vault-Mount"
+  path   = var.secrets_mount_path
+}
+
+module "external-secrets-default-vault-read-policy" {
+  count             = local.is_vault ? 1 : 0
+  source            = "../../vault/Vault-Policy"
+  policy_name       = "${var.prefix_vault_resources}${var.external_secrets_vault_read_policy_name}"
+  policy_definition = <<EOT
+path "${module.secrets-mount[0].path}/*" {
+  capabilities = ["read", "list"]
+}
+path "${module.secrets-mount[0].path}/metadata/*" {
+  capabilities = ["list"]
+}
+EOT
+  depends_on = [
+    module.secrets-mount
+  ]
+}
+
+module "external-secrets-automation-vault-write-policy" {
+  count             = local.is_vault ? 1 : 0
+  source            = "../../vault/Vault-Policy"
+  policy_name       = "${var.prefix_vault_resources}${var.external_secrets_vault_write_policy_name}"
+  policy_definition = <<EOT
+path "${module.secrets-mount[0].path}/data/automation/*" {
+  capabilities = ["create", "update", "patch", "delete", "read", "list"]
+}
+path "${module.secrets-mount[0].path}/metadata/automation/*" {
+  capabilities = ["create", "update", "patch", "delete", "read", "list"]
+}
+EOT
+  depends_on = [
+    module.secrets-mount
+  ]
+}
+
+module "external-secrets-read-app-role" {
+  count              = local.is_vault ? 1 : 0
+  source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
+  backend            = module.auth-backend-approle[0].path
+  role_name          = "${var.prefix_vault_resources}${var.external_secrets_read_role_name}"
+  token_policies     = [module.external-secrets-default-vault-read-policy[0].policy_name]
+  secret_id_ttl      = 157680000
+  token_type         = "default"
+  token_ttl          = 3600
+  token_max_ttl      = 10800
+  secret_id_num_uses = 0
+
+  depends_on = [
+    module.auth-backend-approle,
+    module.external-secrets-default-vault-read-policy
+  ]
+}
+
+module "external-secrets-write-app-role" {
+  count              = local.is_vault ? 1 : 0
+  source             = "../../vault/Dynamic-Vault-AppRole-Auth-Backend-Role"
+  backend            = module.auth-backend-approle[0].path
+  role_name          = "${var.prefix_vault_resources}${var.external_secrets_write_role_name}"
+  token_policies     = [module.external-secrets-automation-vault-write-policy[0].policy_name]
+  secret_id_ttl      = 157680000
+  token_type         = "default"
+  token_ttl          = 3600
+  token_max_ttl      = 10800
+  secret_id_num_uses = 0
+
+  depends_on = [
+    module.auth-backend-approle,
+    module.external-secrets-automation-vault-write-policy
+  ]
+}
+
+resource "vault_kv_secret_v2" "oc_system_secrets" {
+  count = local.is_vault ? 1 : 0
+  mount = module.secrets-mount[0].path
+  name  = "system"
+  data_json = jsonencode(
+    local.base_secrets
+  )
+}
