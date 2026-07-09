@@ -115,21 +115,7 @@ variable "opensearch_username" {
   default     = "admin"
 }
 
-variable "backstage_admin_username" {
-  description = "The username for the Backstage admin user."
-  type        = string
-  default     = "admin@openchoreo.dev"
-}
 
-variable "environment" {
-  description = "The environment for which the cluster is being provisioned (e.g., dev, staging, prod)"
-  type        = string
-  default     = null
-  validation {
-    condition     = (var.environment != null && length(trimspace(var.environment)) > 0)
-    error_message = "environment must not be empty or whitespace-only."
-  }
-}
 
 variable "oc_system_db_postgres_host" {
   description = "The hostname or IP address of the OpenChoreo System PostgreSQL database."
@@ -163,69 +149,52 @@ variable "prefix_vault_resources" {
   default     = ""
 }
 
-# Shared IdP clients - Null generates a random value 
-
 variable "oc_observer_client_id" {
   description = "Client ID for the oc observer IdP client."
   type        = string
-  default     = null
 }
 
 variable "oc_observer_client_secret" {
   description = "Client secret for the oc observer IdP client."
   type        = string
   sensitive   = true
-  default     = null
 }
 
 variable "workload_publisher_client_id" {
   description = "Client ID for the workload publisher IdP client."
   type        = string
-  default     = null
 }
 
 variable "workload_publisher_client_secret" {
   description = "Client secret for the workload publisher IdP client."
   type        = string
   sensitive   = true
-  default     = null
 }
 
 variable "backstage_client_id" {
   description = "Client ID for the backstage IdP client."
   type        = string
-  default     = null
 }
 
-variable "backstage_client_secret" {
-  description = "Client secret for the backstage IdP client."
-  type        = string
-  sensitive   = true
-  default     = null
-}
 
 variable "rca_agent_client_id" {
   description = "Client ID for the rca agent IdP client."
   type        = string
-  default     = null
 }
 
-variable "rca_agent_client_secret" {
-  description = "Client secret for the rca agent IdP client."
-  type        = string
-  sensitive   = true
-  default     = null
-}
 
 variable "service_mcp_client_id" {
   description = "Client ID for the service mcp IdP client."
   type        = string
-  default     = null
 }
 
-variable "service_mcp_client_secret" {
-  description = "Client secret for the service mcp IdP client."
+variable "system_app_client_id" {
+  description = "Client ID for the system app IdP client."
+  type        = string
+}
+
+variable "system_app_client_secret" {
+  description = "Client secret for the system app IdP client."
   type        = string
   sensitive   = true
-  default     = null
 }

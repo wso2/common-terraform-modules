@@ -12,8 +12,19 @@
 locals {
   base_secrets = {
     opensearch-password    = random_password.opensearch_password.result
-    opensearch-username    = random_password.opensearch_password.result
+    opensearch-username    = var.opensearch_username
     google-webhook-address = var.google_webhook_address
+
+    backstage-client-id              = var.backstage_client_id
+    rca-agent-client-id              = var.rca_agent_client_id
+    service-mcp-client-id            = var.service_mcp_client_id
+    oc-observer-client-id            = var.oc_observer_client_id
+    oc-observer-client-secret        = var.oc_observer_client_secret
+    workload-publisher-client-id     = var.workload_publisher_client_id
+    workload-publisher-client-secret = var.workload_publisher_client_secret
+    system-app-client-id             = var.system_app_client_id
+    system-app-client-secret         = var.system_app_client_secret
+
     dockerconfigjson = jsonencode(
       {
         auths = {
