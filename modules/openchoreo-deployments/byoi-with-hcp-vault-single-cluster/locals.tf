@@ -28,6 +28,8 @@ locals {
     workload-publisher-client-id       = random_id.workload_publisher_client_id.hex
     workload-publisher-client-secret   = random_password.workload_publisher_client_secret.result
     backstage-backend-secret           = random_password.backstage_backend_secret.result
+    finops-agent-client-id             = random_id.finops_agent_client_id.hex
+    finops-agent-client-secret         = random_password.finops_agent_client_secret.result
     jenkins-api-key                    = "unused"
     oc-system-db-postgres-host         = var.oc_system_db_postgres_host
     oc-system-db-postgres-port         = var.oc_system_db_postgres_port

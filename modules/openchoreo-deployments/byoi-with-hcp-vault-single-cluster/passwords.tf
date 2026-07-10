@@ -85,6 +85,15 @@ resource "random_password" "oc_observer_client_secret" {
   special = false
 }
 
+resource "random_id" "finops_agent_client_id" {
+  byte_length = 12
+}
+
+resource "random_password" "finops_agent_client_secret" {
+  length  = 24
+  special = false
+}
+
 resource "random_password" "backstage_backend_secret" {
   length  = 32
   special = false
