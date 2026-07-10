@@ -57,16 +57,6 @@ variable "docker_registry_password" {
   }
 }
 
-variable "oc_system_db_type" {
-  description = "Type of the OC system DB. When set to \"postgres\" PostgreSQL resources will be created."
-  type        = string
-  default     = "postgres"
-
-  validation {
-    condition     = contains(["postgres", "mysql", "mssql", "sqlite", "none"], var.oc_system_db_type)
-    error_message = "oc_system_db_type must be one of: \"postgres\", \"mysql\", \"mssql\", \"sqlite\", or \"none\"."
-  }
-}
 
 variable "secret_store_type" {
   description = "Type of the secret store. When set to \"vault\" Vault resources will be created."
@@ -115,64 +105,9 @@ variable "opensearch_username" {
   default     = "admin"
 }
 
-variable "oc_system_db_system_username" {
-  description = "The username for the OpenChoreo System database user."
-  type        = string
-  default     = "oc_system_db_user"
-}
 
 variable "prefix_vault_resources" {
   description = "Custom prefix for Vault resources (e.g., policies, roles). Useful for distinguishing resources when using a shared Vault instance."
   type        = string
   default     = ""
-}
-
-variable "oc_observer_client_id" {
-  description = "Client ID for the oc observer IdP client."
-  type        = string
-}
-
-variable "oc_observer_client_secret" {
-  description = "Client secret for the oc observer IdP client."
-  type        = string
-  sensitive   = true
-}
-
-variable "workload_publisher_client_id" {
-  description = "Client ID for the workload publisher IdP client."
-  type        = string
-}
-
-variable "workload_publisher_client_secret" {
-  description = "Client secret for the workload publisher IdP client."
-  type        = string
-  sensitive   = true
-}
-
-variable "backstage_client_id" {
-  description = "Client ID for the backstage IdP client."
-  type        = string
-}
-
-
-variable "rca_agent_client_id" {
-  description = "Client ID for the rca agent IdP client."
-  type        = string
-}
-
-
-variable "service_mcp_client_id" {
-  description = "Client ID for the service mcp IdP client."
-  type        = string
-}
-
-variable "system_app_client_id" {
-  description = "Client ID for the system app IdP client."
-  type        = string
-}
-
-variable "system_app_client_secret" {
-  description = "Client secret for the system app IdP client."
-  type        = string
-  sensitive   = true
 }

@@ -9,29 +9,6 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "random_password" "oc_system_db_password" {
-  # Create the random password only when using Postgres
-  count            = local.is_postgres ? 1 : 0
-  length           = 16
-  special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 resource "random_password" "opensearch_password" {
   length  = 32
