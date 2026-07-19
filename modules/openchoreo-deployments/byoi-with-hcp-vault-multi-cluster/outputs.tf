@@ -16,3 +16,10 @@ output "system-app-client-secret" {
   value     = random_password.system_app_client_secret.result
   sensitive = true
 }
+output "external-dp-observability-client-id" {
+  value = random_id.external_dp_observability_client_id.hex
+}
+output "external-dp-observability-client-secret" {
+  value     = random_password.external_dp_observability_client_secret.result
+  sensitive = true
+}
