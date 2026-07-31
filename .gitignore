@@ -28,3 +28,7 @@ replay_pid*
 
 # Mac
 .DS_Store
+
+# terraform local state/plugins
+**/.terraform/
+**/.terraform.lock.hcl
