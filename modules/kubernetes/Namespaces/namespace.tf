@@ -26,4 +26,8 @@ resource "kubernetes_namespace_v1" "namespace" {
 
     name = each.key
   }
+
+  lifecycle {
+    ignore_changes = [metadata[0].annotations, metadata[0].labels]
+  }
 }
