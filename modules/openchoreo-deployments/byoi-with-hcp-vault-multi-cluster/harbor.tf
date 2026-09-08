@@ -14,9 +14,12 @@ locals {
 }
 
 resource "random_password" "openchoreo_cr_system_user_password" {
-  count   = local.is_harbor ? 1 : 0
-  length  = 12
-  special = false
+  count       = local.is_harbor ? 1 : 0
+  length      = 16
+  special     = false
+  min_upper   = 1
+  min_lower   = 1
+  min_numeric = 1
 }
 
 resource "harbor_project" "openchoreo" {
