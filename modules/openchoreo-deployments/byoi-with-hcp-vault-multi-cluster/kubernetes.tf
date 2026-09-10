@@ -88,7 +88,7 @@ module "oc-dp-kubernetes-secrets-external-secrets" {
 }
 
 module "oc-ci-kubernetes-namespaces" {
-  count  = local.is_vault ? 1 : 0
+  count  = local.is_vault && !var.oc_ci_is_dp ? 1 : 0
   source = "../../kubernetes/Namespaces"
   kubernetes_namespaces = {
     external-secrets = {}
@@ -99,7 +99,7 @@ module "oc-ci-kubernetes-namespaces" {
 }
 
 module "oc-ci-kubernetes-secrets-external-secrets" {
-  count     = local.is_vault ? 1 : 0
+  count     = local.is_vault && !var.oc_ci_is_dp ? 1 : 0
   source    = "../../kubernetes/Secrets"
   namespace = "external-secrets"
   secrets = {

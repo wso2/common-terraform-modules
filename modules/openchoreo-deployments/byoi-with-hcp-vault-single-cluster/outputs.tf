@@ -16,3 +16,17 @@ output "system-app-client-secret" {
   value     = random_password.system_app_client_secret.result
   sensitive = true
 }
+output "workload-publisher-client-id" {
+  value = random_id.workload_publisher_client_id.hex
+}
+output "workload-publisher-client-secret" {
+  value     = random_password.workload_publisher_client_secret.result
+  sensitive = true
+}
+output "oc-observer-client-id" {
+  value = random_id.oc_observer_client_id.hex
+}
+output "oc-observer-client-secret" {
+  value     = random_password.oc_observer_client_secret.result
+  sensitive = true
+}

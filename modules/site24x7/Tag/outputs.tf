@@ -1,5 +1,6 @@
+# -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2025, WSO2 LLC. (https://www.wso2.com).
+# Copyright (c) 2026, WSO2 LLC. (https://www.wso2.com) All Rights Reserved.
 #
 # WSO2 LLC. licenses this file to you under the Apache License,
 # Version 2.0 (the "License"); you may not use this file except
@@ -17,14 +18,7 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "kubernetes_storage_class" "example" {
-  metadata {
-    name = var.storage_class_name
-  }
-  storage_provisioner    = var.storage_provisioner
-  reclaim_policy         = var.reclaim_policy
-  parameters             = var.parameters
-  mount_options          = var.mount_options
-  volume_binding_mode    = var.volume_binding_mode
-  allow_volume_expansion = var.allow_volume_expansion
+output "id" {
+  description = "Site24x7 tag ID."
+  value       = site24x7_tag.tag.id
 }

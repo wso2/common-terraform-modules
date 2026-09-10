@@ -36,4 +36,15 @@ locals {
     ]
   ])
   rw_map = { for pair in local.db_readwrite : "${pair.database_name}-${pair.user}" => pair }
+
+  # 4. Flatten for Extensions
+  db_extensions = flatten([
+    for db, config in var.databases : [
+      for ext in config.extensions : {
+        database_name = db
+        extension     = ext
+      }
+    ]
+  ])
+  ext_map = { for pair in local.db_extensions : "${pair.database_name}-${pair.extension}" => pair }
 }

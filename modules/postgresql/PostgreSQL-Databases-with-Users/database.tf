@@ -31,6 +31,15 @@ resource "postgresql_database" "dbs" {
   encoding = "UTF8"
 }
 
+# Extensions are created by the provider's admin role since application users
+# lack the database-level CREATE privilege required by CREATE EXTENSION.
+resource "postgresql_extension" "extensions" {
+  for_each = local.ext_map
+
+  name     = each.value.extension
+  database = postgresql_database.dbs[each.value.database_name].name
+}
+
 # ==========================================
 # SECURITY: REVOKE PUBLIC EXECUTE GRANTS
 # ==========================================

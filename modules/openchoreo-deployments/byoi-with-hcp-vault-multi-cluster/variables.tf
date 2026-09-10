@@ -180,3 +180,9 @@ variable "prefix_vault_resources" {
   type        = string
   default     = ""
 }
+
+variable "oc_ci_is_dp" {
+  description = "Set to true when the CI plane runs inside the DP cluster (same kubeconfig). Skips CI-specific Kubernetes namespace and secret resources to avoid conflicts with the DP resources that manage the same physical objects."
+  type        = bool
+  default     = false
+}

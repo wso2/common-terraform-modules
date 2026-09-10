@@ -14,6 +14,7 @@ variable "databases" {
   type = map(object({
     read_only_users  = list(string)
     read_write_users = list(string)
+    extensions       = optional(list(string), [])
   }))
   default = {
     primary_db = {

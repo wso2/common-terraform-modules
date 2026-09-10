@@ -40,3 +40,17 @@ variable "mount_options" {
   type        = list(string)
   default     = []
 }
+variable "volume_binding_mode" {
+  description = "When volume binding and dynamic provisioning should occur (Immediate or WaitForFirstConsumer)"
+  type        = string
+  default     = "Immediate"
+  validation {
+    condition     = contains(["Immediate", "WaitForFirstConsumer"], var.volume_binding_mode)
+    error_message = "volume_binding_mode must be either \"Immediate\" or \"WaitForFirstConsumer\"."
+  }
+}
+variable "allow_volume_expansion" {
+  description = "Whether volumes of this storage class can be expanded"
+  type        = bool
+  default     = true
+}
