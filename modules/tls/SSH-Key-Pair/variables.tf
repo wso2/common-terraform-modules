@@ -9,8 +9,18 @@
 #
 # --------------------------------------------------------------------------------------
 
+variable "algorithm" {
+  description = "The algorithm to use for the private key. Supported values: RSA, ED25519."
+  type        = string
+  default     = "RSA"
+  validation {
+    condition     = contains(["RSA", "ED25519"], var.algorithm)
+    error_message = "algorithm must be RSA or ED25519."
+  }
+}
+
 variable "rsa_bits" {
-  description = "The number of bits in the generated RSA key."
+  description = "The number of bits in the generated RSA key. Only used when algorithm is RSA."
   type        = number
   default     = 2048
 }
