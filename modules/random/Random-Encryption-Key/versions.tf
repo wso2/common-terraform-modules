@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
+# Copyright (c) 2026, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 #
 # This software is the property of WSO2 LLC. and its suppliers, if any.
 # Dissemination of any information or reproduction of any material contained
@@ -9,7 +9,12 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "tls_private_key" "ssh_key" {
-  algorithm = var.algorithm
-  rsa_bits  = var.algorithm == "RSA" ? var.rsa_bits : null
+terraform {
+  required_version = ">= 1.10"
+  required_providers {
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.5.0"
+    }
+  }
 }

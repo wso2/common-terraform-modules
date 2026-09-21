@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------------------------
 #
-# Copyright (c) 2023, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
+# Copyright (c) 2026, WSO2 LLC. (http://www.wso2.com). All Rights Reserved.
 #
 # This software is the property of WSO2 LLC. and its suppliers, if any.
 # Dissemination of any information or reproduction of any material contained
@@ -9,7 +9,8 @@
 #
 # --------------------------------------------------------------------------------------
 
-resource "tls_private_key" "ssh_key" {
-  algorithm = var.algorithm
-  rsa_bits  = var.algorithm == "RSA" ? var.rsa_bits : null
+variable "byte_length" {
+  description = "Number of random bytes to generate. The hex output will be 2× this value (e.g. 32 bytes → 64 hex chars, a 256-bit AES key)."
+  type        = number
+  default     = 32
 }

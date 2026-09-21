@@ -10,5 +10,6 @@
 # --------------------------------------------------------------------------------------
 
 variable "length" {
-  type = number
+  description = "Number of random bytes to generate. The hex output will be 2× this value."
+  type        = number
 }
