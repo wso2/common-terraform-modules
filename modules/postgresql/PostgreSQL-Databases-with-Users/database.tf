@@ -41,6 +41,18 @@ resource "postgresql_extension" "extensions" {
 }
 
 # ==========================================
+# DB OWNER ROLE MEMBERSHIP
+# ==========================================
+
+resource "postgresql_grant_role" "db_owner_membership" {
+  for_each = toset(var.db_owner_member_users)
+
+  role              = postgresql_role.db_users[each.key].name
+  grant_role        = var.db_owner_role_name
+  with_admin_option = false
+}
+
+# ==========================================
 # SECURITY: REVOKE PUBLIC EXECUTE GRANTS
 # ==========================================
 

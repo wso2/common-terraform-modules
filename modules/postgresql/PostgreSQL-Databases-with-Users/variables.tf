@@ -32,3 +32,9 @@ variable "db_owner_role_name" {
   description = "The name of the role that will own all the databases."
   type        = string
 }
+
+variable "db_owner_member_users" {
+  description = "Users from the databases map to be granted membership in the db owner role, e.g. to run schema migrations."
+  type        = list(string)
+  default     = []
+}
