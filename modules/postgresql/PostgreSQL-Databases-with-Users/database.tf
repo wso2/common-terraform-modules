@@ -21,6 +21,12 @@ resource "postgresql_role" "db_users" {
   name     = each.key
   login    = true
   password = random_password.user_passwords[each.key].result
+
+  lifecycle {
+    # Role memberships are managed by postgresql_grant_role.db_owner_membership;
+    # without this, the two resources fight over the role's memberships.
+    ignore_changes = [roles]
+  }
 }
 
 resource "postgresql_database" "dbs" {
