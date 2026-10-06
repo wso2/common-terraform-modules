@@ -4,13 +4,13 @@ servicenow_username = ""
 servicenow_password = ""
 
 prometheus_datasource_name = "Prometheus"
-folder_title               = "Harvester VM Alerts WDT NonProd"
-servicenow_url             = "https://wso2.service-now.com/api/wso2/v1/sre_alert_api/prometheus"
+folder_title               = "sample folder name for prometheus"
+servicenow_url             = "sample_webhook _url"
 
 common_labels = {
   component   = "system"
-  service     = "client-ditsub-alert-integration"
-  environment = "NonProd"
+  service     = "example_service"
+  environment = "enviornment ex:nonprod"
   category    = "service_interruption"
   severity    = "critical"
 }
