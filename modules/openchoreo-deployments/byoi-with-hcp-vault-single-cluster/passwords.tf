@@ -22,6 +22,11 @@ resource "random_password" "backstage_admin_password" {
   special = false
 }
 
+resource "random_password" "thunder_admin_password" {
+  length  = 16
+  special = false
+}
+
 resource "random_id" "backstage_client_id" {
   byte_length = 12
 }
