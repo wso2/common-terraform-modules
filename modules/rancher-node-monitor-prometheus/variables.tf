@@ -20,14 +20,14 @@ variable "folder_title" {
   default = "Harvester VM Alerts"
 }
 
-variable "rule_group_name" { 
+variable "rule_group_name" {
   type    = string
   default = "kubevirt-vm-resources"
 }
 
 # ---------- ServiceNow webhook ----------
 variable "servicenow_url" {
-  type    = string
+  type        = string
   description = " sample URL like https://sample-dev.service-now.com/api/wso2/v1/sre_alert_api/prometheus"
 }
 
