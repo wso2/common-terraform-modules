@@ -13,6 +13,7 @@ locals {
   base_secrets = {
     backstage-admin-username           = join("-", [var.environment, var.backstage_admin_username])
     backstage-admin-password           = random_password.backstage_admin_password.result
+    thunder-admin-password             = random_password.thunder_admin_password.result
     backstage-client-id                = random_id.backstage_client_id.hex
     backstage-client-secret            = random_password.backstage_client_secret.result
     customer-portal-client-id          = random_id.customer_portal_client_id.hex
