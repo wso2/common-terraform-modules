@@ -21,6 +21,10 @@ resource "postgresql_role" "db_users" {
   name     = each.key
   login    = true
   password = random_password.user_passwords[each.key].result
+  # DDL users switch to their database's owner role at login, so objects they
+  # create are owned by <db>_owner (alterable by the database's other DDL users
+  # and by db_owner_role_name, and covered by the default grants below).
+  assume_role = contains(keys(local.ddl_user_db), each.key) ? local.db_owner_roles[local.ddl_user_db[each.key]] : null
 
   lifecycle {
     # Role memberships are managed by postgresql_grant_role.db_owner_membership;
@@ -204,6 +208,128 @@ resource "postgresql_default_privileges" "rw_future_functions" {
   role        = postgresql_role.db_users[each.value.user].name
   schema      = "public"
   owner       = var.db_owner_role_name
+  object_type = "routine"
+  privileges  = ["EXECUTE"]
+}
+
+# ==========================================
+# PER-DATABASE OWNER ROLES (per_database_owner = true)
+# ==========================================
+
+# NOLOGIN role that owns one database's objects. db_owner_role_name stays the
+# database owner, so DDL users can alter/drop their objects but never the
+# database itself.
+resource "postgresql_role" "database_owners" {
+  for_each = local.db_owner_roles
+  name     = each.value
+  login    = false
+
+  lifecycle {
+    ignore_changes = [roles]
+  }
+}
+
+# db_owner_role_name (the SRE login) reaches every database's objects through
+# inheriting ADMIN membership in each owner role — one credential for all.
+resource "postgresql_grant_role" "system_user_database_owner" {
+  for_each = local.db_owner_roles
+
+  role              = var.db_owner_role_name
+  grant_role        = postgresql_role.database_owners[each.key].name
+  with_admin_option = true
+}
+
+resource "postgresql_grant_role" "ddl_user_database_owner" {
+  for_each = var.per_database_owner ? local.ddl_user_db : {}
+
+  role              = postgresql_role.db_users[each.key].name
+  grant_role        = postgresql_role.database_owners[each.value].name
+  with_admin_option = false
+}
+
+# db_owner_role_name's sessions in each database switch to that database's
+# owner role, so objects SRE creates are owned by <db>_owner like the app's.
+# The provider has no resource for a per-database role setting, so this runs
+# through psql with the admin connection (credentials only in the environment,
+# never in the command line or state). Re-applied when the names change;
+# Terraform does not detect it being reset by hand.
+resource "terraform_data" "system_user_database_role" {
+  for_each = local.db_owner_roles
+
+  triggers_replace = [each.key, var.db_owner_role_name, each.value]
+
+  provisioner "local-exec" {
+    command = "psql -X -v ON_ERROR_STOP=1 -c \"$SQL\""
+    environment = {
+      PGHOST     = var.db_admin_connection.host
+      PGPORT     = tostring(var.db_admin_connection.port)
+      PGUSER     = var.db_admin_connection.username
+      PGPASSWORD = var.db_admin_connection.password
+      PGSSLMODE  = var.db_admin_connection.sslmode
+      PGDATABASE = "postgres"
+      SQL        = format("ALTER ROLE %s IN DATABASE %s SET role = %s", jsonencode(var.db_owner_role_name), jsonencode(each.key), jsonencode(each.value))
+    }
+  }
+
+  depends_on = [
+    postgresql_database.dbs,
+    postgresql_grant_role.system_user_database_owner,
+  ]
+}
+
+# Default grants for objects created by the per-database owner role — i.e.
+# everything created by DDL users or by db_owner_role_name after enabling.
+resource "postgresql_default_privileges" "owner_revoke_public_future_functions" {
+  for_each = local.db_owner_roles
+
+  database    = postgresql_database.dbs[each.key].name
+  role        = "public"
+  schema      = "public"
+  owner       = postgresql_role.database_owners[each.key].name
+  object_type = "function"
+  privileges  = []
+}
+
+resource "postgresql_default_privileges" "owner_ro_future_tables" {
+  for_each = var.per_database_owner ? local.ro_map : {}
+
+  database    = postgresql_database.dbs[each.value.database_name].name
+  role        = postgresql_role.db_users[each.value.user].name
+  schema      = "public"
+  owner       = postgresql_role.database_owners[each.value.database_name].name
+  object_type = "table"
+  privileges  = ["SELECT"]
+}
+
+resource "postgresql_default_privileges" "owner_rw_future_tables" {
+  for_each = var.per_database_owner ? local.rw_map : {}
+
+  database    = postgresql_database.dbs[each.value.database_name].name
+  role        = postgresql_role.db_users[each.value.user].name
+  schema      = "public"
+  owner       = postgresql_role.database_owners[each.value.database_name].name
+  object_type = "table"
+  privileges  = ["SELECT", "INSERT", "UPDATE", "DELETE"]
+}
+
+resource "postgresql_default_privileges" "owner_rw_future_sequences" {
+  for_each = var.per_database_owner ? local.rw_map : {}
+
+  database    = postgresql_database.dbs[each.value.database_name].name
+  role        = postgresql_role.db_users[each.value.user].name
+  schema      = "public"
+  owner       = postgresql_role.database_owners[each.value.database_name].name
+  object_type = "sequence"
+  privileges  = ["USAGE", "SELECT", "UPDATE"]
+}
+
+resource "postgresql_default_privileges" "owner_rw_future_functions" {
+  for_each = var.per_database_owner ? local.rw_map : {}
+
+  database    = postgresql_database.dbs[each.value.database_name].name
+  role        = postgresql_role.db_users[each.value.user].name
+  schema      = "public"
+  owner       = postgresql_role.database_owners[each.value.database_name].name
   object_type = "routine"
   privileges  = ["EXECUTE"]
 }
