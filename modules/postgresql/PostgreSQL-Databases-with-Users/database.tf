@@ -24,7 +24,7 @@ resource "postgresql_role" "db_users" {
   # DDL users switch to their database's owner role at login, so objects they
   # create are owned by <db>_owner (alterable by the database's other DDL users
   # and by db_owner_role_name, and covered by the default grants below).
-  assume_role = contains(keys(local.ddl_user_db), each.key) ? local.db_owner_roles[local.ddl_user_db[each.key]] : null
+  assume_role = contains(keys(local.ddl_user_db), each.key) ? postgresql_role.database_owners[local.ddl_user_db[each.key]].name : null
 
   lifecycle {
     # Role memberships are managed by postgresql_grant_role.db_owner_membership;
@@ -257,6 +257,12 @@ resource "terraform_data" "system_user_database_role" {
   for_each = local.db_owner_roles
 
   triggers_replace = [each.key, var.db_owner_role_name, each.value]
+
+  # A replaced (dropped + recreated) database loses its per-database role
+  # settings, while the names above stay the same — re-run on replacement.
+  lifecycle {
+    replace_triggered_by = [postgresql_database.dbs[each.key]]
+  }
 
   provisioner "local-exec" {
     command = "psql -X -v ON_ERROR_STOP=1 -c \"$SQL\""
