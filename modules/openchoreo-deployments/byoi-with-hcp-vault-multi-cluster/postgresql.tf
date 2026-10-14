@@ -10,7 +10,7 @@
 # --------------------------------------------------------------------------------------
 
 locals {
-  databases   = toset(["configdb", "runtimedb", "userdb", "entitydb", "runtime_persistent", "runtime_transient", "backstage"])
+  databases   = toset(["configdb", "runtimedb", "userdb", "thunderid_configdb", "thunderid_entitydb", "thunderid_runtime_persistent", "thunderid_runtime_transient", "backstage"])
   is_postgres = var.oc_system_db_type == "postgres"
 }
 
