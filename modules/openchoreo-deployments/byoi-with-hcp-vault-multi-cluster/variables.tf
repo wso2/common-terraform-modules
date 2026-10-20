@@ -186,3 +186,9 @@ variable "oc_ci_is_dp" {
   type        = bool
   default     = false
 }
+
+variable "use_thunderid_databases" {
+  description = "Create the ThunderID system databases (thunderid_configdb, thunderid_entitydb, thunderid_runtime_persistent, thunderid_runtime_transient). Set false to keep the pre-ThunderID Thunder 0.28 databases (entitydb, runtime_persistent, runtime_transient). Switching an existing environment destroys the set it moves away from."
+  type        = bool
+  default     = true
+}

@@ -10,8 +10,10 @@
 # --------------------------------------------------------------------------------------
 
 locals {
-  databases   = toset(["configdb", "runtimedb", "userdb", "thunderid_configdb", "thunderid_entitydb", "thunderid_runtime_persistent", "thunderid_runtime_transient", "backstage"])
-  is_postgres = var.oc_system_db_type == "postgres"
+  # Thunder system DB names: ThunderID (thunderid_*) when true, the pre-ThunderID Thunder 0.28 names when false.
+  thunder_databases = var.use_thunderid_databases ? ["thunderid_configdb", "thunderid_entitydb", "thunderid_runtime_persistent", "thunderid_runtime_transient"] : ["entitydb", "runtime_persistent", "runtime_transient"]
+  databases         = toset(concat(["configdb", "runtimedb", "userdb", "backstage"], local.thunder_databases))
+  is_postgres       = var.oc_system_db_type == "postgres"
 }
 
 resource "postgresql_role" "oc_system_db_user" {
