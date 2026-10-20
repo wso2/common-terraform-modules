@@ -186,3 +186,9 @@ variable "oc_ci_is_dp" {
   type        = bool
   default     = false
 }
+
+variable "oc_system_databases" {
+  description = "Overrides the OpenChoreo system databases to create. Null keeps the module default (configdb, runtimedb, userdb, thunderid_* and backstage). Use it to keep an environment on an older Thunder database set."
+  type        = list(string)
+  default     = null
+}

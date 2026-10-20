@@ -169,3 +169,9 @@ variable "preshared_monitoring_agent_token" {
   type        = string
   default     = ""
 }
+
+variable "oc_system_databases" {
+  description = "Overrides the OpenChoreo system databases to create. Null keeps the module default (configdb, runtimedb, userdb, thunderid_* and backstage). Use it to keep an environment on an older Thunder database set."
+  type        = list(string)
+  default     = null
+}
