@@ -25,7 +25,7 @@ variable "schema" {
   default     = "public"
 }
 
-variable "version" {
+variable "extension_version" {
   description = "Version of the extension to install. Defaults to the latest available."
   type        = string
   default     = null

@@ -13,5 +13,5 @@ resource "postgresql_extension" "extension" {
   name     = var.name
   database = var.database
   schema   = var.schema
-  version  = var.version
+  version  = var.extension_version
 }
